@@ -1,12 +1,14 @@
 package company.vk.polis.github_mobile.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Owner(
     val login: String,
     val id: Int,
-    @SerializedName("avatar_url")
+    @SerialName(value = "avatar_url")
     val avatarUrl: String,
-    @SerializedName("html_url")
+    @SerialName(value = "html_url")
     val htmlUrl: String
 )

@@ -1,8 +1,10 @@
 package company.vk.polis.github_mobile.remote
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
     const val token = "" //TODO: Вынести token в DataStore
@@ -11,9 +13,14 @@ object ApiClient {
 
     private val okHttpClient = OkHttpClient.Builder().build()
 
+    private val jsonConf = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
+
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(jsonConf.asConverterFactory(MediaType.get("application/json")))
         .client(okHttpClient)
         .build()
 
