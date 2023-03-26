@@ -8,6 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import company.vk.polis.github_mobile.databinding.ActivityMainBinding
+import company.vk.polis.github_mobile.remote.ApiClient
+import company.vk.polis.github_mobile.remote.GitHubRepository
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,5 +33,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val gitHubRepository = GitHubRepository(ApiClient.gitHubApi)
+        gitHubRepository.getRepositories()
     }
 }

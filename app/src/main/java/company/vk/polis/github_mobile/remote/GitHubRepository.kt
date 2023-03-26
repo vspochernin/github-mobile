@@ -1,5 +1,6 @@
 package company.vk.polis.github_mobile.remote
 
+import android.util.Log
 import company.vk.polis.github_mobile.model.Repository
 import retrofit2.Call
 import retrofit2.Callback
@@ -7,7 +8,7 @@ import retrofit2.Response
 
 class GitHubRepository(private val gitHubApi: GitHubApi) {
 
-    fun getRepositories(onSuccess: (List<Repository>) -> Unit, onError: (Throwable) -> Unit) {
+    fun getRepositories() {
         gitHubApi.getUserRepositories("Bearer ${ApiClient.token}")
             .enqueue(object : Callback<List<Repository>> {
                 override fun onResponse(
@@ -17,15 +18,18 @@ class GitHubRepository(private val gitHubApi: GitHubApi) {
                     if (response.isSuccessful) {
                         val repositories = response.body()
                         repositories?.let {
-                            onSuccess(it)
+                            Log.e("INFO", it.size.toString())
+                            for (rep in it) {
+                                Log.e("INFO", rep.toString())
+                            }
                         }
                     } else {
-                        onError(Exception("Failed to get repositories"))
+                        Log.e("ERROR", "response is not successful")
                     }
                 }
 
                 override fun onFailure(call: Call<List<Repository>>, t: Throwable) {
-                    onError(t)
+                    Log.e("ERROR", "some failure")
                 }
             })
     }
