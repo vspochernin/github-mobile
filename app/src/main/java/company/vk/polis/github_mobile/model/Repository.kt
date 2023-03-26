@@ -63,4 +63,13 @@ class Repository(
         openIssuesCount = 0,
         defaultBranch = ""
     )
+
+    override fun toString(): String {
+        return "Repository(id=$id, name='$name', fullName='$fullName', owner=$owner," +
+                "private=$private, htmlUrl='$htmlUrl', description=$description, fork=$fork," +
+                "url='$url', createdAt='$createdAt', updatedAt='$updatedAt', pushedAt='$pushedAt'," +
+                "homepage=$homepage, size=$size, stargazersCount=$stargazersCount," +
+                "watchersCount=$watchersCount, language=$language, forksCount=$forksCount," +
+                "openIssuesCount=$openIssuesCount, defaultBranch='$defaultBranch')"
+    }
 }

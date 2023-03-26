@@ -23,4 +23,8 @@ class Owner(
         avatarUrl = "",
         htmlUrl = ""
     )
+
+    override fun toString(): String {
+        return "Owner(id=$id, login='$login', avatarUrl='$avatarUrl', htmlUrl='$htmlUrl')"
+    }
 }
