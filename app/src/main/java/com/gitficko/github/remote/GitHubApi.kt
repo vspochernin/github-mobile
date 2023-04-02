@@ -1,13 +1,18 @@
-package company.vk.polis.github_mobile.remote
+package com.gitficko.github.remote
 
-import company.vk.polis.github_mobile.model.Repository
-import company.vk.polis.github_mobile.model.RepositoryRootNode
+import com.gitficko.github.model.Repository
+import com.gitficko.github.model.RepositoryRootNode
+import com.gitficko.github.model.RemoteGithubUser
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface GitHubApi {
+    @GET("user")
+    suspend fun getCurrentUser(
+    ): RemoteGithubUser
+
     @GET("user/repos")
     fun getUserRepositories(
         @Header("Authorization") token: String
