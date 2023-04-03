@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import company.vk.polis.github_mobile.model.Repository
 
-@Database(entities = [Repository::class], version = 1, exportSchema = false)
+@Database(entities = [Repository::class], version = 1, exportSchema = true)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

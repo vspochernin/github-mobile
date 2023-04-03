@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                //gitHubRepository.getRepositories()
+                gitHubRepository.getRepositories()
                 val repos: List<Repository> = gitHubRepository.getAllRepositories()
                 for (rep in repos) {
                     Log.e("info", rep.toString())
