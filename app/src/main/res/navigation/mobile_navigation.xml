@@ -22,4 +22,10 @@
         android:name="company.vk.polis.github_mobile.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_repositories"
+        android:name="company.vk.polis.github_mobile.ui.repositories_list.RepositoriesFragment"
+        android:label="@string/title_repositories"
+        tools:layout="@layout/fragment_repositories" />
 </navigation>
