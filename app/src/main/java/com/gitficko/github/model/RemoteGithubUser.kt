@@ -1,8 +1,8 @@
 package com.gitficko.github.model
 
-import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
-@JsonClass(generateAdapter = true)
+@Serializable
 data class RemoteGithubUser(
     val id: Long,
     val login: String,
