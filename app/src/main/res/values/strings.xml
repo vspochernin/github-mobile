@@ -8,4 +8,6 @@
     <string name="get_user_rep">user repositories</string>
     <string name="get_user_error">Get user error</string>
     <string name="logout">logout</string>
+    <string name="title_repositories">Repositories</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
