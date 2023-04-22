@@ -1,4 +1,4 @@
-package company.vk.polis.github_mobile.ui.home
+package com.gitficko.github.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

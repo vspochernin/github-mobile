@@ -1,6 +1,6 @@
-package company.vk.polis.github_mobile.remote
+package com.gitficko.github.remote
 
-import company.vk.polis.github_mobile.model.RepositoryRootNode
+import com.gitficko.github.model.RepositoryRootNode
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,7 +11,6 @@ class GitHubRepositoryRootNode(
     private val repo: String,
     private val branch: String
 ) {
-
     fun getNodes(onSuccess: (RepositoryRootNode) -> Unit, onError: (Throwable) -> Unit) {
         gitHubApi.getRepositoryRootNode(owner, repo, branch)
             .enqueue(object : Callback<RepositoryRootNode> {

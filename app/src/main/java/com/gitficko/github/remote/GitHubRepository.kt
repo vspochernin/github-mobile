@@ -1,6 +1,7 @@
-package company.vk.polis.github_mobile.remote
+package com.gitficko.github.remote
 
-import company.vk.polis.github_mobile.model.Repository
+import com.gitficko.github.model.RemoteGithubUser
+import com.gitficko.github.model.Repository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,4 +30,5 @@ class GitHubRepository(private val gitHubApi: GitHubApi) {
                 }
             })
     }
+
 }

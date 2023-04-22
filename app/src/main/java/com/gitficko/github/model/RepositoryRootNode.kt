@@ -1,4 +1,4 @@
-package company.vk.polis.github_mobile.model
+package com.gitficko.github.model
 
 import kotlinx.serialization.Serializable
 
