@@ -1,0 +1,28 @@
+package company.vk.polis.github_mobile.ui.repositories_list
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import company.vk.polis.github_mobile.R
+import company.vk.polis.github_mobile.model.Repository
+
+class RepositoriesListAdapter(val repositoriesList: List<Repository>) : RecyclerView.Adapter<RepositoryViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
+        val view = LayoutInflater.from(parent.context)
+                                 .inflate(R.layout.layout_repository, parent, false)
+        return RepositoryViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return repositoriesList.size
+    }
+
+    override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
+        val repository = repositoriesList[position]
+
+        holder.fullNameTextView.text = repository.fullName
+        holder.privacyTextView.text = if (repository.private) "Private" else "Public"
+        holder.dateInfoTextView.text = repository.createdAt
+        holder.languageTextView.text = repository.language
+    }
+}
