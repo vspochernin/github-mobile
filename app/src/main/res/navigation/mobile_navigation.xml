@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_repositories"
-        android:name="company.vk.polis.github_mobile.ui.repositories_list.RepositoriesFragment"
+        android:name="com.gitficko.github.ui.repositories_list.RepositoriesFragment"
         android:label="@string/title_repositories"
         tools:layout="@layout/fragment_repositories" />
 </navigation>

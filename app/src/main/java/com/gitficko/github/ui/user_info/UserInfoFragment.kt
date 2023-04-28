@@ -34,7 +34,7 @@ class UserInfoFragment : Fragment(R.layout.fragment_user_info) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.getUserInfo.setOnClickListener {
-            viewModel.loadUserInfo()
+            findNavController().navigate(R.id.action_repositoryListFragment_to_navigation_repositories)
         }
         binding.logout.setOnClickListener {
             viewModel.logout()

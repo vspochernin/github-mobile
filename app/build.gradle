@@ -1,6 +1,10 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id "org.jetbrains.kotlin.plugin.serialization" version "1.8.20-RC"
+    id "kotlin-kapt"
+    id "androidx.navigation.safeargs.kotlin"
+}
 
 android {
     namespace 'com.gitficko.github'

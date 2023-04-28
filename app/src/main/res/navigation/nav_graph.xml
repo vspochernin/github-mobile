@@ -6,6 +6,11 @@
     app:startDestination="@id/authFragment">
 
     <fragment
+        android:id="@+id/navigation_repositories"
+        android:name="com.gitficko.github.ui.repositories_list.RepositoriesFragment"
+        android:label="@string/title_repositories"
+        tools:layout="@layout/fragment_repositories" />
+    <fragment
         android:id="@+id/authFragment"
         android:name="com.gitficko.github.ui.auth.AuthFragment"
         android:label="AuthFragment"
@@ -19,5 +24,9 @@
     <fragment
         android:id="@+id/repositoryListFragment"
         android:name="com.gitficko.github.ui.user_info.UserInfoFragment"
-        android:label="RepositoryListFragment" />
+        android:label="RepositoryListFragment" >
+        <action
+            android:id="@+id/action_repositoryListFragment_to_navigation_repositories"
+            app:destination="@id/navigation_repositories" />
+    </fragment>
 </navigation>
