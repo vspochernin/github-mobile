@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="311dp"
+    <ImageView
+        android:layout_width="158dp"
+        android:layout_height="158dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="101dp"
+        app:srcCompat="@drawable/auth_logo_purple"/>
+
+    <TextView
+        android:layout_width="265dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="353dp"
+        android:layout_marginStart="47dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/slogan"
+        android:textColor="@color/colorSlogan"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textFontWeight="600"
+        android:gravity="center"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="1sp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/auth_login" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="312dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="530dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/auth_login"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:background="@drawable/rounded_button"/>
+
+        <TextView
+            android:id="@+id/termsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/auth_terms"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="Inter"/>
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/loginProgress"
