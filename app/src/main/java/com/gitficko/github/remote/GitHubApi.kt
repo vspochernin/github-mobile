@@ -1,8 +1,10 @@
 package com.gitficko.github.remote
 
+import com.gitficko.github.model.PullRequest
 import com.gitficko.github.model.Repository
 import com.gitficko.github.model.RepositoryRootNode
 import com.gitficko.github.model.RemoteGithubUser
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -24,4 +26,10 @@ interface GitHubApi {
         @Path("repo") repo: String,
         @Path("branch") branch: String
     ): Call<RepositoryRootNode>
+
+    @GET("repos/{owner}/{repo}/pulls")
+    fun getPullRequests(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String
+    ): Single<List<PullRequest>>
 }
