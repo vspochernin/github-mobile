@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
-import com.gitficko.github.model.Repository
+import com.gitficko.github.model.RepositoryDto
 
-class RepositoriesListAdapter(val repositoriesList: List<Repository>) : RecyclerView.Adapter<RepositoryViewHolder>() {
+class RepositoriesListAdapter(val repositoriesList: List<RepositoryDto>) : RecyclerView.Adapter<RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view = LayoutInflater.from(parent.context)
                                  .inflate(R.layout.layout_repository, parent, false)

@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
-import com.gitficko.github.remote.ApiClient
+import com.gitficko.github.model.Owner
+import com.gitficko.github.remote.CachedClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -29,11 +30,12 @@ class PullRequestsFragment: Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = PullRequestsListAdapter(emptyList())
 
-        compositeDisposible.add(ApiClient.gitHubApi.getPullRequests("polis-vk", "java-tasks")
+        compositeDisposible.add(CachedClient.getPullRequestsOf(Owner(123, "StombieIT", "", ""))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ it ->
                 (recyclerView.adapter as PullRequestsListAdapter).pullRequestsList = it
+                recyclerView.adapter!!.notifyDataSetChanged()
             }, {
                 Log.e("pull_requests_fetching", "onCreateView: ", it)
             }))

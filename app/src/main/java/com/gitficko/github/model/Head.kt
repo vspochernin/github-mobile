@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class Head (
-    val repo: Repository
+    val repo: RepositoryDto
 )

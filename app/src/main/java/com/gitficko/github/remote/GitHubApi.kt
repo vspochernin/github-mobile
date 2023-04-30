@@ -1,9 +1,6 @@
 package com.gitficko.github.remote
 
-import com.gitficko.github.model.PullRequest
-import com.gitficko.github.model.Repository
-import com.gitficko.github.model.RepositoryRootNode
-import com.gitficko.github.model.RemoteGithubUser
+import com.gitficko.github.model.*
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
@@ -18,7 +15,7 @@ interface GitHubApi {
     @GET("user/repos")
     fun getUserRepositories(
         @Header("Authorization") token: String
-    ): Call<List<Repository>>
+    ): Single<List<RepositoryDto>>
 
     @GET("repos/{owner}/{repo}/git/trees/{branch}?recursive=1")
     fun getRepositoryRootNode(
@@ -31,5 +28,10 @@ interface GitHubApi {
     fun getPullRequests(
         @Path("owner") owner: String,
         @Path("repo") repo: String
-    ): Single<List<PullRequest>>
+    ): Single<List<PullRequestDto>>
+
+    @GET("users/{owner}/repos")
+    fun getRepositoriesByOwnerName(
+        @Path("owner") owner: String
+    ): Single<List<RepositoryDto>>
 }

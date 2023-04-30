@@ -9,12 +9,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 class Owner(
     @PrimaryKey
-    val id: Int,
-    val login: String,
+    var id: Int,
+    var login: String,
     @SerialName(value = "avatar_url")
-    val avatarUrl: String,
+    var avatarUrl: String,
     @SerialName(value = "html_url")
-    val htmlUrl: String
+    var htmlUrl: String
 ) {
     // Пустой конструктор для Room.
     constructor() : this(

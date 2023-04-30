@@ -1,14 +1,10 @@
 package com.gitficko.github.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = "repository")
 @Serializable
-class Repository(
-    @PrimaryKey
+class RepositoryDto(
     var id: Int,
     var name: String,
     @SerialName(value = "full_name")
@@ -23,7 +19,7 @@ class Repository(
     @SerialName(value = "created_at")
     var createdAt: String,
     @SerialName(value = "updated_at")
-    var updatedAt: String,
+    var updatedAt: String?,
     @SerialName(value = "pushed_at")
     var pushedAt: String,
     var homepage: String?,
@@ -40,29 +36,17 @@ class Repository(
     @SerialName(value = "default_branch")
     var defaultBranch: String
 ) {
-    // Пустой конструктор для Room.
-    constructor() : this(
-        id = 0,
-        name = "",
-        fullName = "",
-        owner = Owner(),
-        private = false,
-        htmlUrl = "",
-        description = null,
-        fork = false,
-        url = "",
-        createdAt = "",
-        updatedAt = "",
-        pushedAt = "",
-        homepage = null,
-        size = 0,
-        stargazersCount = 0,
-        watchersCount = 0,
-        language = null,
-        forksCount = 0,
-        openIssuesCount = 0,
-        defaultBranch = ""
-    )
+    fun toEntity(): Repository {
+        return Repository(
+            id,
+            name,
+            private,
+            createdAt,
+            updatedAt,
+            language,
+            owner.id
+        )
+    }
 
     override fun toString(): String {
         return "Repository(id=$id, name='$name', fullName='$fullName', owner=$owner," +
