@@ -1,42 +1,65 @@
 package com.gitficko.github.ui.home
 
+import android.app.Activity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentHomeBinding
+import com.gitficko.github.utils.launchAndCollectIn
+import com.gitficko.github.utils.resetNavGraph
+import com.gitficko.github.utils.toast
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    private var _binding: FragmentHomeBinding? = null
+    private val viewModel: HomeViewModel by viewModels()
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    private val logoutResponse = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.webLogoutComplete()
+        } else {
+            viewModel.webLogoutComplete()
         }
-        return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.getUserInfo.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_navigation_repositories)
+        }
+        binding.logout.setOnClickListener {
+            viewModel.logout()
+        }
+
+        viewModel.loadingFlow.launchAndCollectIn(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.isVisible = isLoading
+            binding.getUserInfo.isEnabled = !isLoading
+            binding.userInfo.isVisible = !isLoading
+        }
+
+        viewModel.userInfoFlow.launchAndCollectIn(viewLifecycleOwner) { userInfo ->
+            binding.userInfo.text = userInfo?.login
+        }
+
+        viewModel.toastFlow.launchAndCollectIn(viewLifecycleOwner) {
+            toast(it)
+        }
+
+        viewModel.logoutPageFlow.launchAndCollectIn(viewLifecycleOwner) {
+            logoutResponse.launch(it)
+        }
+
+        viewModel.logoutCompletedFlow.launchAndCollectIn(viewLifecycleOwner) {
+            findNavController().resetNavGraph(R.navigation.nav_graph)
+        }
     }
 }

@@ -6,6 +6,15 @@
     app:startDestination="@id/authFragment">
 
     <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.gitficko.github.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_repositories"
+            app:destination="@id/navigation_repositories" />
+    </fragment>
+    <fragment
         android:id="@+id/navigation_repositories"
         android:name="com.gitficko.github.ui.repositories_list.RepositoriesFragment"
         android:label="@string/title_repositories"
@@ -16,17 +25,7 @@
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth">
         <action
-            android:id="@+id/action_authFragment_to_repositoryListFragment"
-            app:destination="@id/repositoryListFragment"
-            app:popUpTo="@id/authFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/repositoryListFragment"
-        android:name="com.gitficko.github.ui.user_info.UserInfoFragment"
-        android:label="RepositoryListFragment" >
-        <action
-            android:id="@+id/action_repositoryListFragment_to_navigation_repositories"
-            app:destination="@id/navigation_repositories" />
+            android:id="@+id/action_authFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 </navigation>
