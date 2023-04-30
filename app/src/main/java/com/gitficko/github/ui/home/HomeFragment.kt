@@ -33,7 +33,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.getUserInfo.setOnClickListener {
+        binding.getUserRep.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_navigation_repositories)
         }
         binding.logout.setOnClickListener {
@@ -42,7 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewModel.loadingFlow.launchAndCollectIn(viewLifecycleOwner) { isLoading ->
             binding.progressBar.isVisible = isLoading
-            binding.getUserInfo.isEnabled = !isLoading
+            binding.getUserRep.isEnabled = !isLoading
             binding.userInfo.isVisible = !isLoading
         }
 
