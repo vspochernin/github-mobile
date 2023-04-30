@@ -1,16 +1,19 @@
 <resources>
     <string name="app_name">Github</string>
-    <string name="title_home">GitFicko</string>
+    <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="auth_login">sign in with github</string>
     <string name="auth_canceled">authentication failed</string>
-    <string name="get_user_rep">user repositories</string>
+    <string name="get_user_rep">Repositories</string>
+    <string name="get_user_pr">Pull Requests</string>
+    <string name="get_user_issue">Issues</string>
     <string name="get_user_error">Get user error</string>
-    <string name="logout">logout</string>
+    <string name="logout">Log Out</string>
     <string name="title_repositories">Repositories</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="auth_terms">By signing in you accept our Terms of use and Privacy policy.</string>
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
+    <string name="my_work">My work</string>
 
 </resources>
