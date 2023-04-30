@@ -15,5 +15,6 @@
     <string name="auth_terms">By signing in you accept our Terms of use and Privacy policy.</string>
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
     <string name="my_work">My work</string>
+    <string name="title_profile">Profile</string>
 
 </resources>
