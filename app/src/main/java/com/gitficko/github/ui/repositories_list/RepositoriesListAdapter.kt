@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.Repository
+import com.gitficko.github.utils.Utils
 
 class RepositoriesListAdapter(val repositoriesList: List<Repository>) : RecyclerView.Adapter<RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
@@ -22,7 +23,7 @@ class RepositoriesListAdapter(val repositoriesList: List<Repository>) : Recycler
 
         holder.fullNameTextView.text = repository.fullName
         holder.privacyTextView.text = if (repository.private) "Private" else "Public"
-        holder.dateInfoTextView.text = repository.createdAt
+        holder.dateInfoTextView.text = Utils.getTimeAgo(repository.updatedAt)
         holder.languageTextView.text = repository.language
     }
 }
