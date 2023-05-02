@@ -14,6 +14,7 @@ import com.gitficko.github.remote.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class RepositoriesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -22,7 +23,7 @@ class RepositoriesFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_repositories, container, false)
 
-        recyclerView = view.findViewById<RecyclerView>(R.id.repositories)
+        recyclerView = view.findViewById(R.id.repositories)
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = RepositoriesListAdapter(emptyList())
 
@@ -36,7 +37,7 @@ class RepositoriesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<Repository>>, t: Throwable) {
-                Log.e("repo_fragment_get_data_error", t.stackTraceToString())
+                Timber.tag("repo_fragment_get_data_error").e(t.stackTraceToString())
             }
         })
 
