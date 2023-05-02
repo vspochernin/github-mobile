@@ -19,20 +19,24 @@ object CachedClient {
         ).build()
     }
 
-    fun getRepositoriesOf(user: Owner): Single<List<Repository>> {
+    fun getRepositoriesOf(ownerLogin: String): Single<List<Repository>> {
         val compositeDisposable = CompositeDisposable()
 
         return Single.create { emitter ->
             compositeDisposable.add(
-                Networking.githubApi.getRepositoriesByOwnerName(user.login)
+                Networking.githubApi.getRepositoriesByOwnerName(ownerLogin)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
+                    .doOnSuccess {
+                        database!!.repositoryDao().clear(ownerLogin)
+                        database!!.repositoryDao().insert(it.map(RepositoryDto::toEntity))
+                    }
                     .subscribe({
                         emitter.onSuccess(it.map(RepositoryDto::toEntity))
                     }, {
                         try {
                             emitter.onSuccess(database!!.repositoryDao()
-                                .getAllRepositoriesByOwnerId(user.id))
+                                .getAllByOwnerLogin(ownerLogin))
                         } catch (t: Throwable) {
                             emitter.onError(t)
                         }
@@ -43,21 +47,25 @@ object CachedClient {
         }
     }
 
-    fun getPullRequestsOf(user: Owner, repository: Repository): Single<List<PullRequest>> {
+    fun getPullRequestsOf(ownerLogin: String, repositoryName: String): Single<List<PullRequest>> {
         val compositeDisposable = CompositeDisposable()
 
         return Single.create { emitter ->
             compositeDisposable.add(
-                Networking.githubApi.getPullRequests(user.login, repository.name)
+                Networking.githubApi.getPullRequests(ownerLogin, repositoryName)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
+                    .doOnSuccess {
+//                        database!!.pullRequestDao().clear(ownerLogin, repositoryName)
+                        database!!.pullRequestDao().insert(it.map(PullRequestDto::toEntity))
+                    }
                     .subscribe({
-                        Log.i("FICKO_PULL", it.map(PullRequestDto::toEntity).toString())
+                        Log.i("some_list", it.toString())
                         emitter.onSuccess(it.map(PullRequestDto::toEntity))
                     }, {
+                        Log.e("some_throwable", "fick", it)
                         try {
-                            emitter.onSuccess(database!!.pullRequestDao()
-                                .getAllPullRequestsByRepositoryId(repository.id))
+                            emitter.onSuccess(database!!.pullRequestDao().getAllByOwnerLoginAndRepositoryName(ownerLogin, repositoryName))
                         } catch (t: Throwable) {
                             emitter.onError(t)
                         }
@@ -65,12 +73,14 @@ object CachedClient {
             )
         }.doOnDispose {
             compositeDisposable.dispose()
+        }.doOnSuccess {
+            Log.i("some_list", it.toString())
         }
     }
 
-    fun getPullRequestsOf(user: Owner): Single<List<PullRequest>> {
-        return getRepositoriesOf(user).flatMap { repositories ->
-            val requests = repositories.map { repository -> getPullRequestsOf(user, repository) }
+    fun getPullRequestsOf(ownerLogin: String): Single<List<PullRequest>> {
+        return getRepositoriesOf(ownerLogin).flatMap { repositories ->
+            val requests = repositories.map { repository -> getPullRequestsOf(ownerLogin, repository.name) }
             Single.zip(requests) { pullRequestsList ->
                 pullRequestsList.flatMap { pullRequests -> pullRequests as List<PullRequest> }
             }

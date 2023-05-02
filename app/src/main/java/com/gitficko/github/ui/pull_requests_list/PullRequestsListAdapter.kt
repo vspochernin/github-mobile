@@ -24,8 +24,8 @@ class PullRequestsListAdapter(var pullRequestsList: List<PullRequest>): Recycler
 
         holder.pathTextView.text = holder.pathTextView.context.getString(
             R.string.path,
-            "StombieIt",
-            "adwjwad"
+            pullRequest.ownerLogin,
+            pullRequest.repositoryName
         )
 
         // TODO: сделать форматирование

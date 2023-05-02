@@ -30,14 +30,14 @@ class PullRequestsFragment: Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = PullRequestsListAdapter(emptyList())
 
-        compositeDisposible.add(CachedClient.getPullRequestsOf(Owner(123, "StombieIT", "", ""))
+        compositeDisposible.add(CachedClient.getPullRequestsOf("StombieIT")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ it ->
                 (recyclerView.adapter as PullRequestsListAdapter).pullRequestsList = it
                 recyclerView.adapter!!.notifyDataSetChanged()
             }, {
-                Log.e("pull_requests_fetching", "onCreateView: ", it)
+                Log.e("pull_requests_fetching_error", "onCreateView: ", it)
             }))
 
         return view

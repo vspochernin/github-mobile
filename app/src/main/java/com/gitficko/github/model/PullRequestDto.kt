@@ -21,7 +21,8 @@ class PullRequestDto (
             number,
             createdAt,
             updatedAt,
-            head.repo.id
+            head.repo.name,
+            head.repo.owner.login
         )
     }
 }
