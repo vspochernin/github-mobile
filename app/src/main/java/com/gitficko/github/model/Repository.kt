@@ -1,9 +1,6 @@
 package com.gitficko.github.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "repository")
 class Repository(
@@ -16,7 +13,7 @@ class Repository(
     @ColumnInfo(name = "updated_at")
     var updatedAt: String?,
     var language: String?,
-    var ownerId: Int
+    var ownerLogin: String
 ) {
     // Пустой конструктор для Room.
     constructor() : this(
@@ -26,6 +23,6 @@ class Repository(
         "",
         null,
         "",
-        0
+        ""
     )
 }

@@ -44,7 +44,7 @@ class RepositoryDto(
             createdAt,
             updatedAt,
             language,
-            owner.id
+            owner.login
         )
     }
 
