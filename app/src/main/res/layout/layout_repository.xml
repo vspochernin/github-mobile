@@ -7,49 +7,68 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/fullName"
+            style="@style/repo_name_font"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/fullName"
-            android:lineSpacingExtra="3sp"
             android:gravity="center_vertical"
-            style="@style/repo_name_font" />
+            android:lineSpacingExtra="3sp" />
 
         <TextView
+            android:id="@+id/privacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:background="@android:color/darker_gray"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:id="@+id/privacy" />
+            android:background="@drawable/privacy_background"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="0dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/language_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="4dp"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="8dp">
 
         <ImageView
+            android:id="@+id/repo_bullet_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:src="@drawable/repo_bullet" />
 
         <TextView
+            android:id="@+id/language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/language"
-            android:textAppearance="@style/language_font"
-            android:gravity="center_horizontal|center_vertical"/>
+            android:gravity="center_horizontal|center_vertical"
+            android:textAppearance="@style/language_font" />
 
         <View
             android:layout_width="0dp"
@@ -57,9 +76,9 @@
             android:layout_weight="1" />
 
         <TextView
+            android:id="@+id/dateInfo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dateInfo" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View
