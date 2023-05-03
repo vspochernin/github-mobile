@@ -13,7 +13,6 @@ class Repository(
     var name: String,
     @SerialName(value = "full_name")
     var fullName: String,
-    var owner: Owner,
     var private: Boolean,
     @SerialName(value = "html_url")
     var htmlUrl: String,
@@ -45,7 +44,6 @@ class Repository(
         id = 0,
         name = "",
         fullName = "",
-        owner = Owner(),
         private = false,
         htmlUrl = "",
         description = null,
@@ -65,7 +63,7 @@ class Repository(
     )
 
     override fun toString(): String {
-        return "Repository(id=$id, name='$name', fullName='$fullName', owner=$owner," +
+        return "Repository(id=$id, name='$name', fullName='$fullName'," +
                 "private=$private, htmlUrl='$htmlUrl', description=$description, fork=$fork," +
                 "url='$url', createdAt='$createdAt', updatedAt='$updatedAt', pushedAt='$pushedAt'," +
                 "homepage=$homepage, size=$size, stargazersCount=$stargazersCount," +

@@ -4,13 +4,8 @@ import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.EndSessionRequest
 import net.openid.appauth.TokenRequest
-import timber.log.Timber
 
 class AuthRepository {
-
-    fun corruptAccessToken() {
-        TokenStorage.accessToken = "fake token"
-    }
 
     fun logout() {
         TokenStorage.accessToken = null

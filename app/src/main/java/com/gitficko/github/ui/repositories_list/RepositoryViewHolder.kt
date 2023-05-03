@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.gitficko.github.R
 
 class RepositoryViewHolder(view: View) : ViewHolder(view) {
-    val fullNameTextView = view.findViewById<TextView>(R.id.fullName)
-    val privacyTextView = view.findViewById<TextView>(R.id.privacy)
-    val languageTextView = view.findViewById<TextView>(R.id.language)
-    val dateInfoTextView = view.findViewById<TextView>(R.id.dateInfo)
+    val fullNameTextView: TextView = view.findViewById(R.id.fullName)
+    val privacyTextView: TextView = view.findViewById(R.id.privacy)
+    val languageTextView: TextView? = view.findViewById(R.id.language)
+    val dateInfoTextView: TextView = view.findViewById(R.id.dateInfo)
 }
