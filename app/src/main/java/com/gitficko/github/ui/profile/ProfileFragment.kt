@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.gitficko.github.R
-import kotlinx.coroutines.launch
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
