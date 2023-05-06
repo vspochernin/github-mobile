@@ -62,7 +62,6 @@ class RepositoriesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = RepositoriesListAdapter(emptyList())
 
-
         ApiClient.gitHubApi.getUserRepositories("Bearer ${ApiClient.token}").enqueue(object :
             Callback<List<Repository>> {
             override fun onResponse(

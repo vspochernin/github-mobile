@@ -8,10 +8,11 @@ import com.gitficko.github.R
 import com.gitficko.github.model.Repository
 import com.gitficko.github.utils.Utils
 
-class RepositoriesListAdapter(val repositoriesList: List<Repository>) : RecyclerView.Adapter<RepositoryViewHolder>() {
+class RepositoriesListAdapter(val repositoriesList: List<Repository>) :
+    RecyclerView.Adapter<RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-                                 .inflate(R.layout.layout_repository, parent, false)
+            .inflate(R.layout.layout_repository, parent, false)
         return RepositoryViewHolder(view)
     }
 
