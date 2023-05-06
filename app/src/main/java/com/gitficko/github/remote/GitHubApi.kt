@@ -2,6 +2,7 @@ package com.gitficko.github.remote
 
 import com.gitficko.github.model.*
 import io.reactivex.Single
+import com.gitficko.github.model.RepositoryRootNode
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -10,7 +11,7 @@ import retrofit2.http.Path
 interface GitHubApi {
     @GET("user")
     suspend fun getCurrentUser(
-    ): RemoteGithubUser
+    ): Owner
 
     @GET("user/repos")
     fun getUserRepositories(

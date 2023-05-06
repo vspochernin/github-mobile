@@ -9,7 +9,7 @@ import com.gitficko.github.model.RepositoryDto
 class RepositoriesListAdapter(val repositoriesList: List<RepositoryDto>) : RecyclerView.Adapter<RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-                                 .inflate(R.layout.layout_repository, parent, false)
+            .inflate(R.layout.layout_repository, parent, false)
         return RepositoryViewHolder(view)
     }
 
@@ -23,6 +23,6 @@ class RepositoriesListAdapter(val repositoriesList: List<RepositoryDto>) : Recyc
         holder.fullNameTextView.text = repository.fullName
         holder.privacyTextView.text = if (repository.private) "Private" else "Public"
         holder.dateInfoTextView.text = repository.createdAt
-        holder.languageTextView.text = repository.language
+        holder.languageTextView?.text = repository.language
     }
 }

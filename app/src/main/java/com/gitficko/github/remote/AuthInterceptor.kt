@@ -14,11 +14,11 @@ class AuthInterceptor : Interceptor {
 
     private fun Request.addTokenHeader(): Request {
         val authHeaderName = "Authorization"
+        val token = TokenStorage.accessToken
         return newBuilder()
             .apply {
-                val token = TokenStorage.accessToken
                 if (token != null) {
-                    header(authHeaderName, token.withBearer())
+                    header(authHeaderName, "Bearer $token")
                 }
             }
             .build()
