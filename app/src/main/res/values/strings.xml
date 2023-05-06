@@ -12,7 +12,7 @@
     <string name="logout">Log Out</string>
     <string name="title_repositories">Repositories</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="path">%s / %s</string>
+    <string name="number">#%s</string>
     <string name="auth_terms">By signing in you accept our Terms of use and Privacy policy.</string>
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
     <string name="my_work">My work</string>

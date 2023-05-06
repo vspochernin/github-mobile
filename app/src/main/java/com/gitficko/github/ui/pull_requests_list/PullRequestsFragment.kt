@@ -1,7 +1,6 @@
 package com.gitficko.github.ui.pull_requests_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
-import com.gitficko.github.model.Owner
 import com.gitficko.github.remote.CachedClient
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PullRequestsFragment: Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private val compositeDisposible: CompositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,21 +27,18 @@ class PullRequestsFragment: Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = PullRequestsListAdapter(emptyList())
 
-        compositeDisposible.add(CachedClient.getPullRequestsOf("StombieIT")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ it ->
-                (recyclerView.adapter as PullRequestsListAdapter).pullRequestsList = it
+        CoroutineScope(Dispatchers.IO).launch {
+            val pullRequests = CachedClient.getPullRequestsOf("StombieIT")
+            requireActivity().runOnUiThread {
+                recyclerView.adapter = PullRequestsListAdapter(pullRequests)
                 recyclerView.adapter!!.notifyDataSetChanged()
-            }, {
-                Log.e("pull_requests_fetching_error", "onCreateView: ", it)
-            }))
+            }
+        }
 
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        compositeDisposible.dispose()
     }
 }

@@ -22,10 +22,9 @@ class PullRequestsListAdapter(var pullRequestsList: List<PullRequest>): Recycler
     override fun onBindViewHolder(holder: PullRequestViewHolder, position: Int) {
         val pullRequest = pullRequestsList[position]
 
-        holder.pathTextView.text = holder.pathTextView.context.getString(
-            R.string.path,
-            pullRequest.ownerLogin,
-            pullRequest.repositoryName
+        holder.numberTextView.text = holder.numberTextView.context.getString(
+            R.string.number,
+            pullRequest.number.toString()
         )
 
         // TODO: сделать форматирование

@@ -1,6 +1,7 @@
 package com.gitficko.github.ui.home
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,9 +12,13 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentHomeBinding
+import com.gitficko.github.remote.Networking
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.resetNavGraph
 import com.gitficko.github.utils.toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -30,11 +35,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        CoroutineScope(Dispatchers.IO).launch {
+            val currentUser = Networking.githubApi.getCurrentUser()
+            val sharedPreferences = context!!.getSharedPreferences("CURRENT_USER", Context.MODE_PRIVATE)
+            val sharedPreferencesEditor = sharedPreferences.edit()
+            sharedPreferencesEditor.putString("LOGIN", currentUser.login).apply()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.getUserRep.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_navigation_repositories)
+        }
+        binding.getUserPr.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_navigation_pull_requests)
         }
         binding.logout.setOnClickListener {
             viewModel.logout()

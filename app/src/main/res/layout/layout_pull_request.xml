@@ -6,6 +6,7 @@
     android:paddingHorizontal="10dp"
     android:paddingVertical="5dp">
     <androidx.appcompat.widget.AppCompatImageView
+        android:layout_margin="7dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_pull_request_24dp" />
@@ -13,6 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:padding="7dp"
         android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
@@ -21,7 +23,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:id="@+id/path" />
+                    android:id="@+id/number"
+                    android:textColor="@color/colorButtons"
+                    android:textSize="18sp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -29,8 +33,10 @@
                     android:id="@+id/timePassed" />
             </FrameLayout>
             <TextView
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/title" />
+                android:id="@+id/title"
+                android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

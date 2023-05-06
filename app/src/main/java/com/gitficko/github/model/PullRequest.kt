@@ -1,7 +1,6 @@
 package com.gitficko.github.model
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "pull_request")
@@ -12,7 +11,6 @@ class PullRequest(
     var number: Int,
     var createdAt: String,
     var updatedAt: String?,
-    var repositoryName: String,
     var ownerLogin: String
 ) {
     constructor(): this(
@@ -21,7 +19,6 @@ class PullRequest(
         0,
         "",
         null,
-        "",
         ""
     )
 }

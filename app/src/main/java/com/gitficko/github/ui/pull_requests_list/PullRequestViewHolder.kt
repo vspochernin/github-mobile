@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.gitficko.github.R
 
 class PullRequestViewHolder(view: View) : ViewHolder(view) {
-    val pathTextView = view.findViewById<TextView>(R.id.path)
+    val numberTextView = view.findViewById<TextView>(R.id.number)
     val timePassedTextView = view.findViewById<TextView>(R.id.timePassed)
     val titleTextView = view.findViewById<TextView>(R.id.title)
 }

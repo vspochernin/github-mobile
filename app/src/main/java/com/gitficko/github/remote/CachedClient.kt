@@ -4,9 +4,8 @@ import android.app.Application
 import android.util.Log
 import androidx.room.Room
 import com.gitficko.github.model.*
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import java.io.IOException
+import java.util.stream.Collectors
 
 object CachedClient {
     var database: ApplicationDatabase? = null
@@ -19,71 +18,19 @@ object CachedClient {
         ).build()
     }
 
-    fun getRepositoriesOf(ownerLogin: String): Single<List<Repository>> {
-        val compositeDisposable = CompositeDisposable()
-
-        return Single.create { emitter ->
-            compositeDisposable.add(
-                Networking.githubApi.getRepositoriesByOwnerName(ownerLogin)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
-                    .doOnSuccess {
-                        database!!.repositoryDao().clear(ownerLogin)
-                        database!!.repositoryDao().insert(it.map(RepositoryDto::toEntity))
-                    }
-                    .subscribe({
-                        emitter.onSuccess(it.map(RepositoryDto::toEntity))
-                    }, {
-                        try {
-                            emitter.onSuccess(database!!.repositoryDao()
-                                .getAllByOwnerLogin(ownerLogin))
-                        } catch (t: Throwable) {
-                            emitter.onError(t)
-                        }
-                    })
-            )
-        }.doOnDispose {
-            compositeDisposable.dispose()
-        }
-    }
-
-    fun getPullRequestsOf(ownerLogin: String, repositoryName: String): Single<List<PullRequest>> {
-        val compositeDisposable = CompositeDisposable()
-
-        return Single.create { emitter ->
-            compositeDisposable.add(
-                Networking.githubApi.getPullRequests(ownerLogin, repositoryName)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
-                    .doOnSuccess {
-//                        database!!.pullRequestDao().clear(ownerLogin, repositoryName)
-                        database!!.pullRequestDao().insert(it.map(PullRequestDto::toEntity))
-                    }
-                    .subscribe({
-                        Log.i("some_list", it.toString())
-                        emitter.onSuccess(it.map(PullRequestDto::toEntity))
-                    }, {
-                        Log.e("some_throwable", "fick", it)
-                        try {
-                            emitter.onSuccess(database!!.pullRequestDao().getAllByOwnerLoginAndRepositoryName(ownerLogin, repositoryName))
-                        } catch (t: Throwable) {
-                            emitter.onError(t)
-                        }
-                    })
-            )
-        }.doOnDispose {
-            compositeDisposable.dispose()
-        }.doOnSuccess {
-            Log.i("some_list", it.toString())
-        }
-    }
-
-    fun getPullRequestsOf(ownerLogin: String): Single<List<PullRequest>> {
-        return getRepositoriesOf(ownerLogin).flatMap { repositories ->
-            val requests = repositories.map { repository -> getPullRequestsOf(ownerLogin, repository.name) }
-            Single.zip(requests) { pullRequestsList ->
-                pullRequestsList.flatMap { pullRequests -> pullRequests as List<PullRequest> }
-            }
+    suspend fun getPullRequestsOf(ownerLogin: String): List<PullRequest> {
+        try {
+            val pullRequestsInfo = Networking.githubApi.getPullRequests("state:open author:$ownerLogin type:pr")
+            val pullRequests = pullRequestsInfo.items
+                .stream()
+                .map(PullRequestDto::toEntity)
+                .collect(Collectors.toList())
+            database!!.pullRequestDao().clear(ownerLogin)
+            database!!.pullRequestDao().insert(pullRequests)
+            return pullRequests
+        } catch (e: IOException) {
+            Log.e("pull_requests_list_fetching_error", e.stackTraceToString())
+            return database!!.pullRequestDao().getAllByOwnerLogin(ownerLogin)
         }
     }
 }

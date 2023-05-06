@@ -13,12 +13,9 @@ interface PullRequestDao {
     @Query("SELECT * FROM pull_request WHERE pull_request.ownerLogin = :ownerLogin")
     fun getAllByOwnerLogin(ownerLogin: String): List<PullRequest>
 
-    @Query("SELECT * FROM pull_request WHERE pull_request.ownerLogin = :ownerLogin AND pull_request.repositoryName = :repositoryName")
-    fun getAllByOwnerLoginAndRepositoryName(ownerLogin: String, repositoryName: String): List<PullRequest>
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(pullRequests: List<PullRequest>)
 
-    @Query("DELETE FROM pull_request WHERE pull_request.ownerLogin = :ownerLogin AND pull_request.repositoryName = :repositoryName")
-    fun clear(ownerLogin: String, repositoryName: String)
+    @Query("DELETE FROM pull_request WHERE pull_request.ownerLogin = :ownerLogin")
+    fun clear(ownerLogin: String)
 }

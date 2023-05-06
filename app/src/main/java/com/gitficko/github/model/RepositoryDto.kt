@@ -9,7 +9,7 @@ class RepositoryDto(
     var name: String,
     @SerialName(value = "full_name")
     var fullName: String,
-    var owner: Owner,
+    var owner: User,
     var private: Boolean,
     @SerialName(value = "html_url")
     var htmlUrl: String,

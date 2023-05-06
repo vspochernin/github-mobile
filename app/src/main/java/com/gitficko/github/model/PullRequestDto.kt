@@ -12,7 +12,7 @@ class PullRequestDto (
     val createdAt: String,
     @SerialName("updated_at")
     val updatedAt: String?,
-    val head: Head
+    val user: User
 ) {
     fun toEntity(): PullRequest {
         return PullRequest(
@@ -21,8 +21,7 @@ class PullRequestDto (
             number,
             createdAt,
             updatedAt,
-            head.repo.name,
-            head.repo.owner.login
+            user.login
         )
     }
 }

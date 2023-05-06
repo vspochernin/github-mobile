@@ -9,7 +9,7 @@ import com.gitficko.github.model.Owner
 import com.gitficko.github.model.PullRequest
 import com.gitficko.github.model.Repository
 
-@Database(entities = [Owner::class, Repository::class, PullRequest::class], version = 8)
+@Database(entities = [Owner::class, Repository::class, PullRequest::class], version = 15)
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun ownerDao(): OwnerDao
     abstract fun repositoryDao(): RepositoryDao
