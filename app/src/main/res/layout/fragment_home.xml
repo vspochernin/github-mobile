@@ -16,7 +16,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         tools:ignore="MissingConstraints" />
 
-
     <TextView
         android:id="@+id/myWorkTitle"
         android:layout_width="wrap_content"
@@ -28,7 +27,7 @@
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <View
         android:layout_width="match_parent"
