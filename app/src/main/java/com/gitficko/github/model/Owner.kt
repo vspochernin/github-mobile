@@ -11,13 +11,14 @@ class Owner(
     @PrimaryKey
     val id: Long,
     val login: String,
-    val name: String,
+    val name: String?,
     val location: String?,
     val bio: String?,
+    val followers: Int,
     @SerialName(value = "avatar_url")
     val avatarUrl: String,
     @SerialName(value = "html_url")
-    val htmlUrl: String
+    val htmlUrl: String,
 ) {
     // Пустой конструктор для Room.
     constructor() : this(
@@ -26,11 +27,15 @@ class Owner(
         name = "",
         location = "",
         bio = "",
+        followers = 0,
         avatarUrl = "",
         htmlUrl = ""
     )
 
     override fun toString(): String {
-        return "Owner(id=$id, login='$login', name='$name', location='$location', bio='$bio', avatarUrl='$avatarUrl', htmlUrl='$htmlUrl')"
+        return """
+            Owner(id=$id, login='$login', name='$name', location='$location', bio='$bio', 
+            followers='$followers', avatarUrl='$avatarUrl', htmlUrl='$htmlUrl')
+        """.trimIndent()
     }
 }

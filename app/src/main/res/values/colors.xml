@@ -5,5 +5,6 @@
     <color name="colorPrimary">#FFFFFFFF</color>
     <color name="colorButtons">#6750A4</color>
     <color name="colorSlogan">#73000000</color>
+    <color name="colorSecondary">#EDE5F9</color>
 
 </resources>
