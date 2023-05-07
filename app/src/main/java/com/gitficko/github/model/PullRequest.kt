@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "pull_request")
-class PullRequest(
+data class PullRequest(
     @PrimaryKey
     var id: Int,
     var title: String,
@@ -12,13 +12,4 @@ class PullRequest(
     var createdAt: String,
     var updatedAt: String?,
     var ownerLogin: String
-) {
-    constructor(): this(
-        0,
-        "",
-        0,
-        "",
-        null,
-        ""
-    )
-}
+)

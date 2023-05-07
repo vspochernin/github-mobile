@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentHomeBinding
+import com.gitficko.github.model.CurrentUserPreferencesKey
+import com.gitficko.github.model.SharedPreferencesKey
 import com.gitficko.github.remote.Networking
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.resetNavGraph
@@ -39,9 +41,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onCreate(savedInstanceState)
         CoroutineScope(Dispatchers.IO).launch {
             val currentUser = Networking.githubApi.getCurrentUser()
-            val sharedPreferences = context!!.getSharedPreferences("CURRENT_USER", Context.MODE_PRIVATE)
+            val sharedPreferences = context!!.getSharedPreferences(
+                SharedPreferencesKey.CURRENT_USER.value,
+                Context.MODE_PRIVATE
+            )
             val sharedPreferencesEditor = sharedPreferences.edit()
-            sharedPreferencesEditor.putString("LOGIN", currentUser.login).apply()
+            sharedPreferencesEditor.putString(
+                CurrentUserPreferencesKey.LOGIN.value, currentUser.login
+            ).apply()
         }
     }
 

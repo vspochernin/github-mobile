@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.PullRequest
-import com.gitficko.github.utils.formatMillisToTimePassed
+import com.gitficko.github.utils.formatSecondsToTimePassed
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -38,11 +38,10 @@ class PullRequestsListAdapter(var pullRequestsList: List<PullRequest>): Recycler
             pullRequest.number.toString()
         )
 
-        // TODO: сделать форматирование
-        val differenceMillis = LocalDateTime.parse(pullRequest.updatedAt?:pullRequest.createdAt, formatter).toEpochSecond(ZoneOffset.UTC)
-                                            - LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
-
-        holder.timePassedTextView.text = formatMillisToTimePassed(differenceMillis)
+        val differenceMillis = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) -
+            LocalDateTime.parse(pullRequest.updatedAt?:pullRequest.createdAt, formatter)
+                .toEpochSecond(ZoneOffset.UTC)
+        holder.timePassedTextView.text = formatSecondsToTimePassed(differenceMillis)
         holder.titleTextView.text = pullRequest.title
     }
 }
