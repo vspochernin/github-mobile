@@ -1,7 +1,6 @@
 package com.gitficko.github.ui.pull_requests_list
 
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -42,7 +41,6 @@ class PullRequestsListAdapter(var pullRequestsList: List<PullRequest>): Recycler
         val differenceMillis = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) -
             LocalDateTime.parse(pullRequest.updatedAt?:pullRequest.createdAt, formatter)
                 .toEpochSecond(ZoneOffset.UTC)
-        Log.i("DIFF", differenceMillis.toString())
         holder.timePassedTextView.text = formatSecondsToTimePassed(differenceMillis)
         holder.titleTextView.text = pullRequest.title
     }
