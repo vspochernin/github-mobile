@@ -1,6 +1,7 @@
 package com.gitficko.github.ui.home
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +17,15 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentHomeBinding
+import com.gitficko.github.model.CurrentUserPreferencesKey
+import com.gitficko.github.model.SharedPreferencesKey
+import com.gitficko.github.remote.Networking
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.resetNavGraph
 import com.gitficko.github.utils.toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -67,12 +74,30 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        CoroutineScope(Dispatchers.IO).launch {
+            val currentUser = Networking.githubApi.getCurrentUser()
+            val sharedPreferences = context!!.getSharedPreferences(
+                SharedPreferencesKey.CURRENT_USER.value,
+                Context.MODE_PRIVATE
+            )
+            val sharedPreferencesEditor = sharedPreferences.edit()
+            sharedPreferencesEditor.putString(
+                CurrentUserPreferencesKey.LOGIN.value, currentUser.login
+            ).apply()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
 
         binding.getUserRep.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_navigation_repositories)
+        }
+        binding.getUserPr.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_navigation_pull_requests)
         }
         binding.logout.setOnClickListener {
             viewModel.logout()

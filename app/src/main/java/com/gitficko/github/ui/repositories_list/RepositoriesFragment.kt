@@ -1,22 +1,28 @@
 package com.gitficko.github.ui.repositories_list
 
 import android.os.Bundle
+import android.util.Log
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
-import com.gitficko.github.model.Repository
+import com.gitficko.github.model.RepositoryDto
 import com.gitficko.github.remote.ApiClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.gitficko.github.remote.Networking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.stream.Collectors
 
 class RepositoriesFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -64,19 +70,19 @@ class RepositoriesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = RepositoriesListAdapter(emptyList())
 
-        ApiClient.gitHubApi.getUserRepositories("Bearer ${ApiClient.token}").enqueue(object :
-            Callback<List<Repository>> {
-            override fun onResponse(
-                call: Call<List<Repository>>,
-                response: Response<List<Repository>>
-            ) {
-                recyclerView.adapter = RepositoriesListAdapter(response.body()!!)
-            }
+        val compositeDisposable = CompositeDisposable()
 
-            override fun onFailure(call: Call<List<Repository>>, t: Throwable) {
-                Timber.tag("repo_fragment_get_data_error").e(t.stackTraceToString())
+        CoroutineScope(Dispatchers.IO).launch {
+            val repositories = Networking.githubApi
+                .getUserRepositories("Bearer ${ApiClient.token}")
+                .stream()
+                .map(RepositoryDto::toEntity)
+                .collect(Collectors.toList())
+            requireActivity().runOnUiThread {
+                recyclerView.adapter = RepositoriesListAdapter(repositories)
+                recyclerView.adapter!!.notifyDataSetChanged()
             }
-        })
+        }
 
         return view
     }

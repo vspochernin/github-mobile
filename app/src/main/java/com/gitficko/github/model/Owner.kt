@@ -7,35 +7,16 @@ import kotlinx.serialization.Serializable
 
 @Entity(tableName = "owner")
 @Serializable
-class Owner(
+data class Owner(
     @PrimaryKey
-    val id: Long,
-    val login: String,
-    val name: String?,
-    val location: String?,
-    val bio: String?,
-    val followers: Int,
+    var id: Long,
+    var login: String,
+    var name: String?,
+    var location: String?,
+    var bio: String?,
+    var followers: Int,
     @SerialName(value = "avatar_url")
-    val avatarUrl: String,
+    var avatarUrl: String,
     @SerialName(value = "html_url")
-    val htmlUrl: String,
-) {
-    // Пустой конструктор для Room.
-    constructor() : this(
-        id = 0,
-        login = "",
-        name = "",
-        location = "",
-        bio = "",
-        followers = 0,
-        avatarUrl = "",
-        htmlUrl = ""
-    )
-
-    override fun toString(): String {
-        return """
-            Owner(id=$id, login='$login', name='$name', location='$location', bio='$bio', 
-            followers='$followers', avatarUrl='$avatarUrl', htmlUrl='$htmlUrl')
-        """.trimIndent()
-    }
-}
+    var htmlUrl: String,
+)

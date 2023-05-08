@@ -8,8 +8,7 @@ import com.gitficko.github.R
 import com.gitficko.github.model.Repository
 import com.gitficko.github.utils.Utils
 
-class RepositoriesListAdapter(val repositoriesList: List<Repository>) :
-    RecyclerView.Adapter<RepositoryViewHolder>() {
+class RepositoriesListAdapter(val repositoriesList: List<Repository>) : RecyclerView.Adapter<RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_repository, parent, false)
@@ -25,7 +24,7 @@ class RepositoriesListAdapter(val repositoriesList: List<Repository>) :
 
         holder.fullNameTextView.text = repository.fullName
         holder.privacyTextView.text = if (repository.private) "Private" else "Public"
-        holder.dateInfoTextView.text = Utils.getTimeAgo(repository.updatedAt)
+        holder.dateInfoTextView.text = Utils.getTimeAgo(repository.updatedAt?:repository.createdAt)
 
         if (repository.description.isNullOrEmpty()) {
             holder.descriptionLayout.visibility = View.GONE

@@ -88,7 +88,7 @@ class ProfileFragment : Fragment() {
             if (user.bio == null){
                 bioTextView.visibility = View.GONE
             } else {
-                bioTextView.text = user.bio.lineSequence()
+                bioTextView.text = user.bio!!.lineSequence()
                     .map { it.trim() }
                     .joinToString(" ")
             }
