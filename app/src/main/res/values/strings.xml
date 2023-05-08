@@ -17,7 +17,7 @@
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
     <string name="my_work">My work</string>
     <string name="title_profile">Profile</string>
-    <string name="title_pull_requests"></string>
+    <string name="title_pull_requests">Пулл реквесты</string>
     <string name="search">Поиск репозиториев</string>
     <string name="avatar">avatar</string>
     <string name="get_user_starred">Starred</string>
