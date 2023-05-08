@@ -7,18 +7,14 @@
     android:background="@android:color/white"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/homeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/title_home"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        app:titleTextAppearance="@style/home_title_font"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/myWorkTitle"
@@ -31,7 +27,7 @@
         android:textColor="#000000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <View
         android:layout_width="match_parent"

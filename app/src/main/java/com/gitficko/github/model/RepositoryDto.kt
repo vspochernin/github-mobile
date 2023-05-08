@@ -40,10 +40,12 @@ class RepositoryDto(
         return Repository(
             id,
             name,
+            fullName,
             private,
             createdAt,
             updatedAt,
             language,
+            description,
             owner.login
         )
     }

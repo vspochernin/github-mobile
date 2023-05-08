@@ -14,7 +14,7 @@
             android:id="@+id/action_navigation_home_to_navigation_repositories"
             app:destination="@id/navigation_repositories" />
         <action
-            android:id="@+id/action_home_to_navigation_pull_requests"
+            android:id="@+id/action_navigation_home_to_navigation_pull_requests"
             app:destination="@+id/navigation_pull_requests" />
     </fragment>
     <fragment
@@ -35,10 +35,18 @@
         android:id="@+id/navigation_profile"
         android:name="com.gitficko.github.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_repositories"
+            app:destination="@id/navigation_repositories" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_pull_requests"
         android:name="com.gitficko.github.ui.pull_requests_list.PullRequestsFragment"
-        android:label="PullRequests"
-        tools:layout="@layout/fragment_pull_requests" />
+        android:label="@string/title_pull_requests"
+        tools:layout="@layout/fragment_pull_requests">
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_pull_requests"
+            app:destination="@id/navigation_repositories" />
+    </fragment>
 </navigation>

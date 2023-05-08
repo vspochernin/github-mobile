@@ -1,8 +1,11 @@
 package com.gitficko.github.remote
 
-import com.gitficko.github.model.*
-import io.reactivex.Single
+import com.gitficko.github.model.Organization
+import com.gitficko.github.model.Owner
+import com.gitficko.github.model.PullRequestsInfo
 import com.gitficko.github.model.RepositoryRootNode
+import com.gitficko.github.model.Starred
+import com.gitficko.github.model.RepositoryDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -19,10 +22,16 @@ interface GitHubApi {
         @Query("q") qString: String
     ): PullRequestsInfo
 
+    @GET("user/orgs")
+    suspend fun getOrganizations() : List<Organization>
+
+    @GET("user/starred")
+    suspend fun getStarred() : List<Starred>
+
     @GET("user/repos")
-    fun getUserRepositories(
+    suspend fun getUserRepositories(
         @Header("Authorization") token: String
-    ): Single<List<RepositoryDto>>
+    ): List<RepositoryDto>
 
     @GET("repos/{owner}/{repo}/git/trees/{branch}?recursive=1")
     fun getRepositoryRootNode(

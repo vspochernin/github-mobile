@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Github</string>
+    <string name="app_name">GitHub</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -17,4 +17,14 @@
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
     <string name="my_work">My work</string>
     <string name="title_profile">Profile</string>
+    <string name="title_pull_requests"></string>
+    <string name="search">Поиск репозиториев</string>
+    <string name="avatar">avatar</string>
+    <string name="get_user_starred">Starred</string>
+    <string name="get_user_orgs">Organizations</string>
+    <string name="stub_username">GitHub User</string>
+    <string name="stub_login">nickname</string>
+    <string name="stub_about">About me</string>
+    <string name="stub_location">San Francisco, California, USA</string>
+    <string name="stub_followers">0 followers</string>
 </resources>

@@ -7,15 +7,16 @@ import kotlinx.serialization.Serializable
 
 @Entity(tableName = "owner")
 @Serializable
-class Owner(
+data class Owner(
     @PrimaryKey
-    var id: Int,
-    @SerialName("avatar_url")
-    var avatarUrl: String,
-    @SerialName("html_url")
-    var htmlUrl: String,
+    var id: Long,
     var login: String,
     var name: String?,
     var location: String?,
     var bio: String?,
+    var followers: Int,
+    @SerialName(value = "avatar_url")
+    var avatarUrl: String,
+    @SerialName(value = "html_url")
+    var htmlUrl: String,
 )

@@ -36,7 +36,6 @@ class PullRequestsFragment: Fragment() {
                 context!!.getSharedPreferences(SharedPreferencesKey.CURRENT_USER.value, Context.MODE_PRIVATE)
                          .getString(CurrentUserPreferencesKey.LOGIN.value, null)!!
             )
-            Log.i("some_data", pullRequests.toString())
             requireActivity().runOnUiThread {
                 recyclerView.adapter = PullRequestsListAdapter(pullRequests)
                 recyclerView.adapter!!.notifyDataSetChanged()
