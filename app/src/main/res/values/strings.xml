@@ -16,5 +16,6 @@
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
     <string name="my_work">My work</string>
     <string name="title_profile">Profile</string>
+    <string name="search">Поиск репозиториев</string>
 
 </resources>
