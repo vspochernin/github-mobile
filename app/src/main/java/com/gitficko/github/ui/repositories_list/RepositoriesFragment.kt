@@ -87,5 +87,13 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
 
     override fun onRepositoryClick(repository: Repository) {
         Timber.tag("Выбран репозиторий:").e(repository.name);
+        Timber.tag("Login:").e(repository.ownerLogin)
+        Timber.tag("Name:").e(repository.name)
+        CoroutineScope(Dispatchers.IO).launch {
+            Networking.githubApi
+                .getRepositoryContents(repository.ownerLogin, repository.name, "")
+                .stream()
+                .forEach { f -> Timber.tag(f.type+":").e(f.name)}
+        }
     }
 }

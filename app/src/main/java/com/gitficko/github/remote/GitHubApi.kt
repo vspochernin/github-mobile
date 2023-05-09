@@ -1,11 +1,6 @@
 package com.gitficko.github.remote
 
-import com.gitficko.github.model.Organization
-import com.gitficko.github.model.Owner
-import com.gitficko.github.model.PullRequestsInfo
-import com.gitficko.github.model.RepositoryRootNode
-import com.gitficko.github.model.Starred
-import com.gitficko.github.model.RepositoryDto
+import com.gitficko.github.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -39,4 +34,12 @@ interface GitHubApi {
         @Path("repo") repo: String,
         @Path("branch") branch: String
     ): Call<RepositoryRootNode>
+
+    @GET("repos/{owner}/{repo}/contents/{path}")
+    suspend fun getRepositoryContents(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("path") path: String,
+        @Query("ref") branch: String? = null
+    ): List<ContentDto>
 }
