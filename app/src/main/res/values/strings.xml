@@ -27,4 +27,5 @@
     <string name="stub_about">About me</string>
     <string name="stub_location">San Francisco, California, USA</string>
     <string name="stub_followers">0 followers</string>
+    <string name="download">Download</string>
 </resources>

@@ -31,7 +31,7 @@
             android:paddingTop="0dp"
             android:paddingEnd="8dp"
             android:paddingBottom="0dp"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 
     <LinearLayout
@@ -83,7 +83,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:alpha="0.2"
         android:background="@color/colorStripe"
         android:layout_marginTop="8dp"/>
 
