@@ -1,13 +1,13 @@
 package com.gitficko.github.ui.repositories_list
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -63,7 +63,6 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
             }
         })
 
-
         recyclerView = view.findViewById(R.id.repositories)
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = RepositoriesListAdapter(emptyList(), this)
@@ -75,17 +74,21 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
                 .map(RepositoryDto::toEntity)
                 .collect(Collectors.toList())
             requireActivity().runOnUiThread {
-                recyclerView.adapter = RepositoriesListAdapter(repositories, this@RepositoriesFragment)
+                recyclerView.adapter =
+                    RepositoriesListAdapter(repositories, this@RepositoriesFragment)
                 recyclerView.adapter!!.notifyDataSetChanged()
             }
         }
-
         return view
     }
 
     override fun onRepositoryClick(repository: Repository) {
         val action = RepositoriesFragmentDirections
-            .actionNavigationRepositoriesToRepositoryContentsFragment(repository.ownerLogin, repository.name)
+            .actionNavigationRepositoriesToRepositoryFragment(
+                repository.ownerLogin,
+                repository.name,
+                repository.description.orEmpty()
+            )
         findNavController().navigate(action)
     }
 }
