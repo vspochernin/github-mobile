@@ -1,7 +1,6 @@
 package com.gitficko.github.ui.repositories_list
 
 import android.os.Bundle
-import io.reactivex.disposables.CompositeDisposable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
@@ -68,8 +68,6 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.adapter = RepositoriesListAdapter(emptyList(), this)
 
-        val compositeDisposable = CompositeDisposable()
-
         CoroutineScope(Dispatchers.IO).launch {
             val repositories = Networking.githubApi
                 .getUserRepositories("Bearer ${ApiClient.token}")
@@ -86,14 +84,8 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
     }
 
     override fun onRepositoryClick(repository: Repository) {
-        Timber.tag("Выбран репозиторий:").e(repository.name);
-        Timber.tag("Login:").e(repository.ownerLogin)
-        Timber.tag("Name:").e(repository.name)
-        CoroutineScope(Dispatchers.IO).launch {
-            Networking.githubApi
-                .getRepositoryContents(repository.ownerLogin, repository.name, "")
-                .stream()
-                .forEach { f -> Timber.tag(f.type+":").e(f.name)}
-        }
+        val action = RepositoriesFragmentDirections
+            .actionNavigationRepositoriesToRepositoryContentsFragment(repository.ownerLogin, repository.name)
+        findNavController().navigate(action)
     }
 }
