@@ -63,7 +63,11 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
         }
         contentsRecyclerView.layoutManager = LinearLayoutManager(context)
         contentsRecyclerView.adapter = repositoryContentsAdapter
-        loadContents("")
+        if (pathStack.isEmpty()) {
+            loadContents("")
+        } else {
+            loadContents(pathStack.peek())
+        }
     }
 
     private fun loadContents(path: String) {
@@ -84,9 +88,48 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
     }
 
     override fun onContentClick(contentDto: ContentDto) {
-        if (contentDto.type == "dir") {
-            pathStack.push(contentDto.path)
-            loadContents(contentDto.path)
+        val navController = findNavController()
+        when {
+            contentDto.type == "dir" -> {
+                pathStack.push(contentDto.path)
+                loadContents(contentDto.path)
+            }
+            isTextFile(contentDto) -> {
+                val textFileUrl = contentDto.download_url
+                val action =
+                    RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToTextFileFragment(
+                        textFileUrl!!
+                    )
+                navController.navigate(action)
+            }
+            isImageFile(contentDto) -> {
+                val imageFileUrl = contentDto.download_url
+                val action =
+                    RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToImageFileFragment(
+                        imageFileUrl!!
+                    )
+                navController.navigate(action)
+            }
+            else -> {
+                val unsupportedFileUrl = contentDto.download_url
+                val unsupportedFileName = contentDto.name
+                val action =
+                    RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToUnsupportedFileFragment(
+                        unsupportedFileUrl!!,
+                        unsupportedFileName
+                    )
+                navController.navigate(action)
+            }
         }
+    }
+
+    private fun isTextFile(contentDto: ContentDto): Boolean {
+        val extension = contentDto.name.substringAfterLast('.', "")
+        return extension in listOf("txt", "md", "java", "kt", "js", "html", "css", "json", "xml", "cpp")
+    }
+
+    private fun isImageFile(contentDto: ContentDto): Boolean {
+        val extension = contentDto.name.substringAfterLast('.', "")
+        return extension in listOf("jpg", "jpeg", "png", "gif", "bmp", "webp")
     }
 }

@@ -64,6 +64,15 @@
         android:name="com.gitficko.github.ui.files_list.RepositoryContentsFragment"
         android:label="RepositoryContentsFragment"
         tools:layout="@layout/fragment_repository_contents">
+        <action
+            android:id="@+id/action_repositoryContentsFragment_to_textFileFragment"
+            app:destination="@id/textFileFragment" />
+        <action
+            android:id="@+id/action_repositoryContentsFragment_to_imageFileFragment"
+            app:destination="@id/imageFileFragment" />
+        <action
+            android:id="@+id/action_repositoryContentsFragment_to_unsupportedFileFragment"
+            app:destination="@id/unsupportedFileFragment" />
         <argument
             android:name="ownerLogin"
             app:argType="string" />
@@ -71,4 +80,38 @@
             android:name="repoName"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/textFileFragment"
+        android:name="com.gitficko.github.ui.files.TextFileFragment"
+        android:label="Text File"
+        tools:layout="@layout/fragment_text_file">
+        <argument
+            android:name="textFileUrl"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/imageFileFragment"
+        android:name="com.gitficko.github.ui.files.ImageFileFragment"
+        android:label="Image File"
+        tools:layout="@layout/fragment_image_file">
+        <argument
+            android:name="imageFileUrl"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/unsupportedFileFragment"
+        android:name="com.gitficko.github.ui.files.UnsupportedFileFragment"
+        android:label="Unsupported File"
+        tools:layout="@layout/fragment_unsupported_file">
+        <argument
+            android:name="unsupportedFileUrl"
+            app:argType="string" />
+        <argument
+            android:name="unsupportedFileName"
+            app:argType="string" />
+    </fragment>
+
 </navigation>
