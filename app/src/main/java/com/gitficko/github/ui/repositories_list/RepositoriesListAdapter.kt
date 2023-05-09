@@ -8,7 +8,10 @@ import com.gitficko.github.R
 import com.gitficko.github.model.Repository
 import com.gitficko.github.utils.Utils
 
-class RepositoriesListAdapter(val repositoriesList: List<Repository>) : RecyclerView.Adapter<RepositoryViewHolder>() {
+class RepositoriesListAdapter(
+    private val repositoriesList: List<Repository>,
+    private val clickListener: RepositoryClickListener
+) : RecyclerView.Adapter<RepositoryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_repository, parent, false)
@@ -40,6 +43,10 @@ class RepositoriesListAdapter(val repositoriesList: List<Repository>) : Recycler
             holder.languageBullet.visibility = View.VISIBLE
             holder.languageTextView.visibility = View.VISIBLE
             holder.languageTextView.text = repository.language
+        }
+
+        holder.itemView.setOnClickListener {
+            clickListener.onRepositoryClick(repository)
         }
     }
 }

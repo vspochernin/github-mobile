@@ -17,11 +17,18 @@
             android:id="@+id/action_navigation_home_to_navigation_pull_requests"
             app:destination="@+id/navigation_pull_requests" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_repositories"
         android:name="com.gitficko.github.ui.repositories_list.RepositoriesFragment"
         android:label="@string/title_repositories"
-        tools:layout="@layout/fragment_repositories" />
+        tools:layout="@layout/fragment_repositories">
+        <action
+            android:id="@+id/action_navigation_repositories_to_repositoryContentsFragment"
+            app:destination="@id/repositoryContentsFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/authFragment"
         android:name="com.gitficko.github.ui.auth.AuthFragment"
@@ -31,6 +38,7 @@
             android:id="@+id/action_authFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.gitficko.github.ui.profile.ProfileFragment"
@@ -40,6 +48,7 @@
             android:id="@+id/action_navigation_profile_to_navigation_repositories"
             app:destination="@id/navigation_repositories" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_pull_requests"
         android:name="com.gitficko.github.ui.pull_requests_list.PullRequestsFragment"
@@ -49,4 +58,66 @@
             android:id="@+id/action_navigation_home_to_navigation_pull_requests"
             app:destination="@id/navigation_repositories" />
     </fragment>
+
+    <fragment
+        android:id="@+id/repositoryContentsFragment"
+        android:name="com.gitficko.github.ui.files_list.RepositoryContentsFragment"
+        android:label="RepositoryContentsFragment"
+        tools:layout="@layout/fragment_repository_contents">
+        <action
+            android:id="@+id/action_repositoryContentsFragment_to_textFileFragment"
+            app:destination="@id/textFileFragment" />
+        <action
+            android:id="@+id/action_repositoryContentsFragment_to_imageFileFragment"
+            app:destination="@id/imageFileFragment" />
+        <action
+            android:id="@+id/action_repositoryContentsFragment_to_unsupportedFileFragment"
+            app:destination="@id/unsupportedFileFragment" />
+        <argument
+            android:name="ownerLogin"
+            app:argType="string" />
+        <argument
+            android:name="repoName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/textFileFragment"
+        android:name="com.gitficko.github.ui.files.TextFileFragment"
+        android:label="Text File"
+        tools:layout="@layout/fragment_text_file">
+        <argument
+            android:name="textFileUrl"
+            app:argType="string" />
+        <argument
+            android:name="textFileName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/imageFileFragment"
+        android:name="com.gitficko.github.ui.files.ImageFileFragment"
+        android:label="Image File"
+        tools:layout="@layout/fragment_image_file">
+        <argument
+            android:name="imageFileUrl"
+            app:argType="string" />
+        <argument
+            android:name="imageFileName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/unsupportedFileFragment"
+        android:name="com.gitficko.github.ui.files.UnsupportedFileFragment"
+        android:label="Unsupported File"
+        tools:layout="@layout/fragment_unsupported_file">
+        <argument
+            android:name="unsupportedFileUrl"
+            app:argType="string" />
+        <argument
+            android:name="unsupportedFileName"
+            app:argType="string" />
+    </fragment>
+
 </navigation>
