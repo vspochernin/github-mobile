@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.gitficko.github.R
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URL
+import androidx.navigation.fragment.findNavController
 
 class TextFileFragment : Fragment() {
     override fun onCreateView(
@@ -33,6 +35,11 @@ class TextFileFragment : Fragment() {
                 // TODO: Добавить подсветку синтаксиса.
             }
         }
+
+        val toolbar = view.findViewById<Toolbar>(R.id.text_file_toolbar)
+        toolbar.setTitle(requireArguments().getString("textFileName"))
+        toolbar.setNavigationIcon(R.drawable.arrow_back)
+        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
 
 }

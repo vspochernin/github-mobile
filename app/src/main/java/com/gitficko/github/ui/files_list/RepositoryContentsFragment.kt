@@ -96,17 +96,21 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
             }
             isTextFile(contentDto) -> {
                 val textFileUrl = contentDto.download_url
+                val textFileName = contentDto.name
                 val action =
                     RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToTextFileFragment(
-                        textFileUrl!!
+                        textFileUrl!!,
+                        textFileName
                     )
                 navController.navigate(action)
             }
             isImageFile(contentDto) -> {
                 val imageFileUrl = contentDto.download_url
+                val imageFileName = contentDto.name
                 val action =
                     RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToImageFileFragment(
-                        imageFileUrl!!
+                        imageFileUrl!!,
+                        imageFileName
                     )
                 navController.navigate(action)
             }

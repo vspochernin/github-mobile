@@ -89,6 +89,9 @@
         <argument
             android:name="textFileUrl"
             app:argType="string" />
+        <argument
+            android:name="textFileName"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -98,6 +101,9 @@
         tools:layout="@layout/fragment_image_file">
         <argument
             android:name="imageFileUrl"
+            app:argType="string" />
+        <argument
+            android:name="imageFileName"
             app:argType="string" />
     </fragment>
 

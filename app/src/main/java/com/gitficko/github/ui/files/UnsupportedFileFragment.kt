@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.gitficko.github.R
 
 class UnsupportedFileFragment : Fragment() {
@@ -29,6 +31,11 @@ class UnsupportedFileFragment : Fragment() {
         downloadButton.setOnClickListener {
             downloadFile(unsupportedFileUrl, unsupportedFileName)
         }
+
+        val toolbar = view.findViewById<Toolbar>(R.id.unsupported_file_toolbar)
+        toolbar.setTitle(requireArguments().getString("unsupportedFileName"))
+        toolbar.setNavigationIcon(R.drawable.arrow_back)
+        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
 
     private fun downloadFile(fileUrl: String, fileName: String) {

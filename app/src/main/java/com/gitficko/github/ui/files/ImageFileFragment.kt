@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.gitficko.github.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +35,11 @@ class ImageFileFragment : Fragment() {
                 imageFileContentImageView.setImageBitmap(bitmap)
             }
         }
+
+        val toolbar = view.findViewById<Toolbar>(R.id.image_file_toolbar)
+        toolbar.setTitle(requireArguments().getString("imageFileName"))
+        toolbar.setNavigationIcon(R.drawable.arrow_back)
+        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
 
 }
