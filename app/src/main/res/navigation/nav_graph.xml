@@ -54,7 +54,7 @@
         android:label="Repository"
         tools:layout="@layout/fragment_repository">
         <action
-            android:id="@+id/action_navigation_repositories_to_repositoryContentsFragment"
+            android:id="@+id/action_navigation_repository_to_repositoryContentsFragment"
             app:destination="@id/nav_repositoryContentsFragment" />
         <argument
             android:name="ownerLogin"
