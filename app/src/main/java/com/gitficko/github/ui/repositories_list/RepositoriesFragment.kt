@@ -1,10 +1,7 @@
 package com.gitficko.github.ui.repositories_list
 
 import android.os.Bundle
-import android.util.Log
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
+import com.gitficko.github.model.Repository
 import com.gitficko.github.model.RepositoryDto
 import com.gitficko.github.remote.ApiClient
 import com.gitficko.github.remote.Networking
@@ -24,7 +22,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.stream.Collectors
 
-class RepositoriesFragment : Fragment() {
+class RepositoriesFragment : Fragment(), RepositoryClickListener {
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -68,7 +66,7 @@ class RepositoriesFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.repositories)
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
-        recyclerView.adapter = RepositoriesListAdapter(emptyList())
+        recyclerView.adapter = RepositoriesListAdapter(emptyList(), this)
 
         val compositeDisposable = CompositeDisposable()
 
@@ -79,11 +77,15 @@ class RepositoriesFragment : Fragment() {
                 .map(RepositoryDto::toEntity)
                 .collect(Collectors.toList())
             requireActivity().runOnUiThread {
-                recyclerView.adapter = RepositoriesListAdapter(repositories)
+                recyclerView.adapter = RepositoriesListAdapter(repositories, this@RepositoriesFragment)
                 recyclerView.adapter!!.notifyDataSetChanged()
             }
         }
 
         return view
+    }
+
+    override fun onRepositoryClick(repository: Repository) {
+        Timber.tag("Выбран репозиторий:").e(repository.name);
     }
 }
