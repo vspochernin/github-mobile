@@ -13,11 +13,15 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentRepositoryBinding
-import com.gitficko.github.model.Repository
-import com.gitficko.github.ui.repositories_list.RepositoryClickListener
+import com.gitficko.github.model.ContentDto
+import com.gitficko.github.remote.Networking
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
-class RepositoryFragment : Fragment(), RepositoryClickListener {
+class RepositoryFragment : Fragment() {
 
     private val binding by viewBinding(FragmentRepositoryBinding::bind)
     private lateinit var ownerLogin: String
@@ -26,6 +30,9 @@ class RepositoryFragment : Fragment(), RepositoryClickListener {
     private lateinit var ownerLoginTextView: TextView
     private lateinit var repoNameTextView: TextView
     private lateinit var repoDescriptionTextView: TextView
+    private lateinit var getReadmeTextView: TextView
+    private lateinit var textFileName: String
+    private var textFileUrl: String? = null
 
     companion object {
         fun newInstance(): RepositoryFragment {
@@ -63,13 +70,17 @@ class RepositoryFragment : Fragment(), RepositoryClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.browseCode.setOnClickListener {
-            onRepositoryClick(Repository())
+            onRepositoryClick()
+        }
+
+        binding.getReadmeTextView.setOnClickListener {
+            onReadmeClick()
         }
 
         ownerLoginTextView = view.findViewById(R.id.ownerLoginTextView)
         repoNameTextView = view.findViewById(R.id.repoNameTextView)
         repoDescriptionTextView = view.findViewById(R.id.repoDescriptionTextView)
-        R.id.nameTextView
+        getReadmeTextView = view.findViewById(R.id.getReadmeTextView)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -85,13 +96,43 @@ class RepositoryFragment : Fragment(), RepositoryClickListener {
         ownerLoginTextView.text = ownerLogin
         repoNameTextView.text = repoName
         repoDescriptionTextView.text = repoDescription
+
+
+        var response: Response<ContentDto>? = null
+        CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
+//            TODO: сделать обработку. Но как? В идеале скрыть кнопку, но отсюда нельзя до view достучаться
+        }).launch {
+            response = Networking.githubApi.getReadme(ownerLogin, repoName)
+        }
+
+        // NPE. В этом коммите попробовал обернуть ответ в Response
+        if (response!!.isSuccessful) {
+            val content = response!!.body()
+            if (content != null) {
+                textFileName = content.name
+            }
+            if (content != null) {
+                textFileUrl = content.download_url
+            }
+        } else {
+            getReadmeTextView.visibility = View.GONE
+        }
     }
 
-    override fun onRepositoryClick(repository: Repository) {
+    private fun onRepositoryClick() {
         val action = RepositoryFragmentDirections
             .actionNavigationRepositoryToRepositoryContentsFragment(
                 ownerLogin,
                 repoName
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun onReadmeClick() {
+        val action =
+            RepositoryFragmentDirections.actionNavigationRepositoryToTextFileFragment(
+                textFileUrl!!,
+                textFileName
             )
         findNavController().navigate(action)
     }

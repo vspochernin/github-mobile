@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_navigation_repository_to_repositoryContentsFragment"
             app:destination="@id/nav_repositoryContentsFragment" />
+        <action
+            android:id="@+id/action_navigation_repository_to_textFileFragment"
+            app:destination="@id/nav_textFileFragment" />
         <argument
             android:name="ownerLogin"
             app:argType="string" />

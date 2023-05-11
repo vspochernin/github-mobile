@@ -2,6 +2,7 @@ package com.gitficko.github.remote
 
 import com.gitficko.github.model.*
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -42,4 +43,10 @@ interface GitHubApi {
         @Path("path") path: String,
         @Query("ref") branch: String? = null
     ): List<ContentDto>
+
+    @GET("repos/{owner}/{repo}/contents/README.md")
+    suspend fun getReadme(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+    ): Response<ContentDto>
 }
