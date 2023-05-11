@@ -18,10 +18,10 @@ interface GitHubApi {
     ): PullRequestsInfo
 
     @GET("user/orgs")
-    suspend fun getOrganizations() : List<Organization>
+    suspend fun getOrganizations(): List<Organization>
 
     @GET("user/starred")
-    suspend fun getStarred() : List<Starred>
+    suspend fun getStarred(): List<Starred>
 
     @GET("user/repos")
     suspend fun getUserRepositories(
@@ -42,4 +42,10 @@ interface GitHubApi {
         @Path("path") path: String,
         @Query("ref") branch: String? = null
     ): List<ContentDto>
+
+    @GET("repos/{owner}/{repo}/contents/README.md")
+    suspend fun getReadme(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+    ): ContentDto
 }

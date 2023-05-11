@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".ui.repository.RepositoryFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorSecondary"
+        android:maxHeight="700dp"
+        android:minHeight="325dp"
+        android:paddingBottom="50dp"
+        tools:ignore="MissingConstraints">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+        <TextView
+            android:id="@+id/ownerLoginTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="12dp"
+            android:drawablePadding="8dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            app:drawableStartCompat="@drawable/account_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/repoNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/ownerLoginTextView" />
+
+        <TextView
+            android:id="@+id/repoDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/repoNameTextView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/getIssues"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawablePadding="8dp"
+        android:focusable="true"
+        android:fontFamily="Inter"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/get_user_issue"
+        android:textColor="@android:color/black"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:drawableStartCompat="@drawable/issues_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topPanel"
+        tools:targetApi="p" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.2"
+        android:background="#D9D9D9"
+        app:layout_constraintTop_toBottomOf="@+id/getIssues"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/getPullRequests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawablePadding="8dp"
+        android:focusable="true"
+        android:fontFamily="Inter"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/get_user_pr"
+        android:textColor="@android:color/black"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:drawableStartCompat="@drawable/ic_pull_request_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getIssues"
+        tools:targetApi="p" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.2"
+        android:background="@color/colorStripe"
+        app:layout_constraintTop_toBottomOf="@+id/getPullRequests"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/browseCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawablePadding="8dp"
+        android:focusable="true"
+        android:fontFamily="Inter"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/browse_code"
+        android:textColor="@android:color/black"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:drawableStartCompat="@drawable/browse_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getPullRequests"
+        tools:targetApi="p" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.2"
+        android:background="@color/colorStripe"
+        app:layout_constraintTop_toBottomOf="@+id/browseCode"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/getCommits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawablePadding="8dp"
+        android:focusable="true"
+        android:fontFamily="Inter"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/get_commits"
+        android:textColor="@android:color/black"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:drawableStartCompat="@drawable/commits"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/browseCode"
+        tools:targetApi="p" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.2"
+        android:background="@color/colorStripe"
+        app:layout_constraintTop_toBottomOf="@+id/getCommits"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/getReadmeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawablePadding="8dp"
+        android:focusable="true"
+        android:fontFamily="Inter"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/readme_md"
+        android:textColor="@android:color/black"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:drawableStartCompat="@drawable/info_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getCommits"
+        tools:targetApi="p" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.2"
+        android:background="@color/colorStripe"
+        app:layout_constraintTop_toBottomOf="@+id/getReadmeTextView"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

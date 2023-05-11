@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import java.util.*
 
@@ -35,6 +36,7 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
         return inflater.inflate(R.layout.fragment_repository_contents, container, false)
     }
 
