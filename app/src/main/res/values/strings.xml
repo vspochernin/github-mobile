@@ -17,8 +17,8 @@
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
     <string name="my_work">My work</string>
     <string name="title_profile">Profile</string>
-    <string name="title_pull_requests">Пулл реквесты</string>
-    <string name="search">Поиск репозиториев</string>
+    <string name="title_pull_requests">Pull requests</string>
+    <string name="search">Search for repositories</string>
     <string name="avatar">avatar</string>
     <string name="get_user_starred">Starred</string>
     <string name="get_user_orgs">Organizations</string>
@@ -27,5 +27,8 @@
     <string name="stub_about">About me</string>
     <string name="stub_location">San Francisco, California, USA</string>
     <string name="stub_followers">0 followers</string>
+    <string name="browse_code">Browse code</string>
+    <string name="get_commits">Commits</string>
+    <string name="readme_md">README.md</string>
     <string name="download">Download</string>
 </resources>

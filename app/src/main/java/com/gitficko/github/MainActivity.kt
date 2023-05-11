@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         // Скрытие BottomNavigationView для фрагментов, кроме home и profile.
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_home,
-                R.id.navigation_profile -> bottomNavigationView.visibility = View.VISIBLE
+                R.id.nav_homeFragment,
+                R.id.nav_profileFragment -> bottomNavigationView.visibility = View.VISIBLE
                 else -> bottomNavigationView.visibility = View.GONE
             }
         }

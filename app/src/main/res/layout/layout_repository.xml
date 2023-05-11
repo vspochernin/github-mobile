@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:lineSpacingExtra="3sp" />
 
         <TextView
@@ -47,7 +49,9 @@
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"/>
     </LinearLayout>
 
     <LinearLayout
@@ -83,6 +87,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:alpha="0.2"
         android:background="@color/colorStripe"
         android:layout_marginTop="8dp"/>
 
