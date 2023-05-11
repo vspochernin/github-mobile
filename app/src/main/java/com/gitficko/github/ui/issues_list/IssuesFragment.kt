@@ -84,8 +84,4 @@ class IssuesFragment: Fragment() {
 
         return view
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }
