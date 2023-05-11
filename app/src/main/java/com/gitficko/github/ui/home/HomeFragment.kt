@@ -3,6 +3,7 @@ package com.gitficko.github.ui.home
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,25 +15,34 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentHomeBinding
 import com.gitficko.github.model.CurrentUserPreferencesKey
+import com.gitficko.github.model.Repository
 import com.gitficko.github.model.SharedPreferencesKey
+import com.gitficko.github.remote.ApiClient
 import com.gitficko.github.remote.Networking
+import com.gitficko.github.remote.Networking.githubApi
+import com.gitficko.github.ui.repositories_list.RepositoriesListAdapter
+import com.gitficko.github.ui.repositories_list.RepositoryClickListener
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.resetNavGraph
 import com.gitficko.github.utils.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), RepositoryClickListener {
 
     private val viewModel: HomeViewModel by viewModels()
     private val binding by viewBinding(FragmentHomeBinding::bind)
+    private lateinit var recyclerView: RecyclerView
 
     private val logoutResponse = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -61,15 +71,32 @@ class HomeFragment : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Timber.tag("Ищем ").e(query)
-                return false
+                viewModel.searchRepositories(query.orEmpty())
+                searchView.clearFocus()
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Timber.tag("Текст поска изменился на ").e(newText)
+                viewModel.searchRepositories(newText.orEmpty())
                 return false
             }
         })
+
+        searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                searchView.setOnKeyListener { _, keyCode, event ->
+                    if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                        searchRepositories(searchView.query.toString())
+                        searchView.clearFocus()
+                        true
+                    } else {
+                        false
+                    }
+                }
+            } else {
+                searchView.setOnKeyListener(null)
+            }
+        }
 
         return view
     }
@@ -124,5 +151,38 @@ class HomeFragment : Fragment() {
         viewModel.logoutCompletedFlow.launchAndCollectIn(viewLifecycleOwner) {
             findNavController().resetNavGraph(R.navigation.nav_graph)
         }
+
+        recyclerView = view.findViewById(R.id.repositories)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        viewModel.repositories.observe(viewLifecycleOwner) { repositories ->
+            val adapter = RepositoriesListAdapter(repositories, this)
+            recyclerView.adapter = adapter
+        }
+
+    }
+
+
+    private fun searchRepositories(query: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val response = githubApi.searchRepositories(query)
+
+            if (response.isSuccessful) {
+                val repositories = response.body()?.items.orEmpty()
+                Timber.tag("Репозитории: ").e(repositories.joinToString { it.name })
+                    // Отобразить результаты поиска в виде списка элементов
+                withContext(Dispatchers.Main) {
+
+                }
+            } else {
+                Timber.tag("Ошибка при выполнении запроса: ").e(response.message())
+            }
+
+        }
+    }
+
+    override fun onRepositoryClick(repository: Repository) {
+        TODO("Not yet implemented")
     }
 }

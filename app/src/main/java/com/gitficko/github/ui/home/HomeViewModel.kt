@@ -4,15 +4,20 @@ import android.app.Application
 import android.content.Intent
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.gitficko.github.model.RemoteGithubUser
+import com.gitficko.github.model.Repository
+import com.gitficko.github.model.RepositoryDto
 import com.gitficko.github.model.auth.AuthRepository
+import com.gitficko.github.remote.ApiClient.gitHubApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import net.openid.appauth.AuthorizationService
+import timber.log.Timber
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -57,6 +62,23 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun webLogoutComplete() {
         authRepository.logout()
         logoutCompletedEventChannel.trySendBlocking(Unit)
+    }
+
+    private var currentQuery: String? = null
+
+    private val _repositories = MutableLiveData<List<Repository>>()
+    val repositories: LiveData<List<Repository>>
+        get() = _repositories
+    fun searchRepositories(query: String) {
+        currentQuery = query
+        viewModelScope.launch {
+            val response = gitHubApi.searchRepositories(query)
+            if (response.isSuccessful) {
+                _repositories.postValue((response.body()?.items ?: emptyList()) as List<Repository>?)
+            } else {
+                Timber.e(response.errorBody()?.string() ?: "Unknown error")
+            }
+        }
     }
 
     override fun onCleared() {
