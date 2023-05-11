@@ -2,7 +2,6 @@ package com.gitficko.github.remote
 
 import com.gitficko.github.model.*
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -19,10 +18,10 @@ interface GitHubApi {
     ): PullRequestsInfo
 
     @GET("user/orgs")
-    suspend fun getOrganizations() : List<Organization>
+    suspend fun getOrganizations(): List<Organization>
 
     @GET("user/starred")
-    suspend fun getStarred() : List<Starred>
+    suspend fun getStarred(): List<Starred>
 
     @GET("user/repos")
     suspend fun getUserRepositories(
@@ -48,5 +47,5 @@ interface GitHubApi {
     suspend fun getReadme(
         @Path("owner") owner: String,
         @Path("repo") repo: String,
-    ): Response<ContentDto>
+    ): ContentDto
 }

@@ -13,13 +13,11 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentRepositoryBinding
-import com.gitficko.github.model.ContentDto
 import com.gitficko.github.remote.Networking
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class RepositoryFragment : Fragment() {
 
@@ -97,25 +95,12 @@ class RepositoryFragment : Fragment() {
         repoNameTextView.text = repoName
         repoDescriptionTextView.text = repoDescription
 
-
-        var response: Response<ContentDto>? = null
         CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
 //            TODO: сделать обработку. Но как? В идеале скрыть кнопку, но отсюда нельзя до view достучаться
         }).launch {
-            response = Networking.githubApi.getReadme(ownerLogin, repoName)
-        }
-
-        // NPE. В этом коммите попробовал обернуть ответ в Response
-        if (response!!.isSuccessful) {
-            val content = response!!.body()
-            if (content != null) {
-                textFileName = content.name
-            }
-            if (content != null) {
-                textFileUrl = content.download_url
-            }
-        } else {
-            getReadmeTextView.visibility = View.GONE
+            val content = Networking.githubApi.getReadme(ownerLogin, repoName)
+            textFileName = content.name
+            textFileUrl = content.download_url
         }
     }
 
@@ -129,6 +114,11 @@ class RepositoryFragment : Fragment() {
     }
 
     private fun onReadmeClick() {
+        // Кнопка README.md ничего не делает, если файла нет. В будущем хотим ее не отрисовывать
+        if (textFileUrl == null) {
+            return
+        }
+
         val action =
             RepositoryFragmentDirections.actionNavigationRepositoryToTextFileFragment(
                 textFileUrl!!,
