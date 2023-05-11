@@ -8,11 +8,11 @@
     </style>
 
     <style name="repo_name_font">
-        <item name="android:fontFamily">Roboto</item>
         <item name="android:textSize">18sp</item>
         <item name="android:letterSpacing">0.03</item>
         <item name="android:textColor">#6750A4</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+
     </style>
 
     <style name="language_font">

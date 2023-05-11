@@ -30,4 +30,5 @@
     <string name="browse_code">Browse code</string>
     <string name="get_commits">Commits</string>
     <string name="readme_md">README.md</string>
+    <string name="download">Download</string>
 </resources>

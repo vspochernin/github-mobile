@@ -33,7 +33,7 @@
             android:paddingTop="0dp"
             android:paddingEnd="8dp"
             android:paddingBottom="0dp"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-medium" />
     </LinearLayout>
 
     <LinearLayout
