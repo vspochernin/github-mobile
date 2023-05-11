@@ -17,6 +17,11 @@ interface GitHubApi {
         @Query("q") qString: String
     ): PullRequestsInfo
 
+    @GET("/issues")
+    suspend fun getIssues(
+        @Header("Authorization") authorizationHeader: String
+    ): List<IssueDto>
+
     @GET("user/orgs")
     suspend fun getOrganizations(): List<Organization>
 

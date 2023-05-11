@@ -49,4 +49,6 @@ class RepositoriesListAdapter(
             clickListener.onRepositoryClick(repository)
         }
     }
+
+
 }
