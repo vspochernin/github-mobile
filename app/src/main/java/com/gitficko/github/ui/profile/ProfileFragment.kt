@@ -94,10 +94,7 @@ class ProfileFragment : Fragment() {
             }
 
             val followers = user.followers
-            followersTextView.text = "".plus(followers).plus(" ").plus(
-                if (followers == 1) "follower"
-                else "followers"
-            )
+            followersTextView.text = "".plus(getString(R.string.followers_sign)).plus(followers)
 
             Picasso.get().load(user.avatarUrl)
                 .transform(RoundedCornersTransformation(250, 0))

@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">GitHub</string>
+    <string name="title_home">Главная</string>
+    <string name="title_dashboard">Панель управления</string>
+    <string name="title_notifications">Уведомления</string>
+    <string name="auth_login">войти через github</string>
+    <string name="auth_canceled">ошибка аутентификации</string>
+    <string name="get_user_rep">Репозитории</string>
+    <string name="get_user_issue">Задачи</string>
+    <string name="get_user_error">Ошибка получения пользователя</string>
+    <string name="logout">Выйти</string>
+    <string name="title_repositories">Репозитории</string>
+    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
+    <string name="number">#%s</string>
+    <string name="auth_terms">Подписываясь, вы принимаете наши Условия использования и Политику конфиденциальности.</string>
+    <string name="slogan">СТРОИМ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ЛУЧШЕ, ВМЕСТЕ</string>
+    <string name="my_work">Моя работа</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_pull_requests">Пулл реквесты</string>
+    <string name="search">Поиск репозиториев</string>
+    <string name="avatar">аватар</string>
+    <string name="get_user_starred">Отмеченные</string>
+    <string name="get_user_orgs">Организации</string>
+    <string name="stub_username">Пользователь GitHub</string>
+    <string name="stub_login">никнейм</string>
+    <string name="stub_about">Обо мне</string>
+    <string name="stub_location">Сан-Франциско, Калифорния, США</string>
+    <string name="stub_followers">Количество подписчиков: 0</string>
+    <string name="browse_code">Посмотреть код</string>
+    <string name="get_commits">Коммиты</string>
+    <string name="download">Скачать</string>
+    <string name="repositories_sign">Репозитории</string>
+    <string name="files_sign">Файлы</string>
+    <string name="followers_sign">Количество подписчиков: </string>
+</resources>

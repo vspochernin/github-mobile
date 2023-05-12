@@ -35,7 +35,7 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
         // Инициализация Toolbar.
-        toolbar.title = "Repositories"
+        toolbar.title = getString(R.string.repositories_sign)
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.inflateMenu(R.menu.menu_search)
 

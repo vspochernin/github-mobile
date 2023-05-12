@@ -44,7 +44,7 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
         super.onViewCreated(view, savedInstanceState)
         val contentsRecyclerView = view.findViewById<RecyclerView>(R.id.contentsRecyclerView)
         toolbar = view.findViewById(R.id.toolbar)
-        toolbar.title = "Files"
+        toolbar.title = getString(R.string.files_sign)
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
             if (pathStack.isNotEmpty()) {
@@ -52,7 +52,7 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
                 toolbar.title = if (!pathStack.isEmpty()) {
                     pathStack.peek()
                 } else {
-                    "Files"
+                    getString(R.string.files_sign)
                 }
                 if (pathStack.isEmpty()) {
                     loadContents("")
@@ -83,7 +83,7 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
                 toolbar.title = if (!pathStack.isEmpty()) {
                     pathStack.peek()
                 } else {
-                    "Files"
+                    getString(R.string.files_sign)
                 }
             }
         }
