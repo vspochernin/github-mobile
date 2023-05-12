@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.room.Room
 import com.gitficko.github.model.*
+import timber.log.Timber
 import java.io.IOException
 import java.util.stream.Collectors
 
@@ -29,8 +30,23 @@ object CachedClient {
             database!!.pullRequestDao().insert(pullRequests)
             return pullRequests
         } catch (e: IOException) {
-            Log.e("pull_requests_list_fetching_error", e.stackTraceToString())
+            Timber.e("pull_requests_list_fetching_error", e.stackTraceToString())
             return database!!.pullRequestDao().getAllByOwnerLogin(ownerLogin)
+        }
+    }
+
+    suspend fun getIssues(token: String): List<Issue> {
+        try {
+            val issues = Networking.githubApi.getIssues("Bearer $token")
+                .stream()
+                .map { issueDto -> issueDto.toEntity(token) }
+                .collect(Collectors.toList())
+            database!!.issueDao().clear(token)
+            database!!.issueDao().insert(issues)
+            return issues
+        } catch (e: IOException) {
+            Timber.e("issues_list_fetching_error", e.stackTraceToString())
+            return database!!.issueDao().getAllByToken(token)
         }
     }
 }

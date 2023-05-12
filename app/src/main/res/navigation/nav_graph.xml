@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_pull_requests"
             app:destination="@+id/nav_pullRequestsFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_issues"
+            app:destination="@+id/navigation_issues" />
     </fragment>
 
     <fragment
@@ -136,5 +139,14 @@
         android:name="com.gitficko.github.ui.pull_requests_list.PullRequestsFragment"
         android:label="@string/title_pull_requests"
         tools:layout="@layout/fragment_pull_requests">
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_issues"
+        android:name="com.gitficko.github.ui.issues_list.IssuesFragment"
+        android:label="@string/title_issues"
+        tools:layout="@layout/fragment_issues">
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_issues"
+            app:destination="@id/navigation_issues" />
     </fragment>
 </navigation>

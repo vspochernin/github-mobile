@@ -99,6 +99,9 @@ class HomeFragment : Fragment() {
         binding.getUserPr.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_navigation_pull_requests)
         }
+        binding.getUserIssue.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_navigation_issues)
+        }
         binding.logout.setOnClickListener {
             viewModel.logout()
         }
