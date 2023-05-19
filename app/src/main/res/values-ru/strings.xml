@@ -17,6 +17,7 @@
     <string name="my_work">Моя работа</string>
     <string name="title_profile">Профиль</string>
     <string name="title_pull_requests">Пулл реквесты</string>
+    <string name="title_issues">Задачи</string>
     <string name="search">Поиск репозиториев</string>
     <string name="avatar">аватар</string>
     <string name="get_user_starred">Отмеченные</string>
@@ -24,7 +25,7 @@
     <string name="stub_username">Пользователь GitHub</string>
     <string name="stub_login">никнейм</string>
     <string name="stub_about">Обо мне</string>
-    <string name="stub_location">Сан-Франциско, Калифорния, США</string>
+    <string name="stub_location">Неизвестно</string>
     <string name="stub_followers">Количество подписчиков: 0</string>
     <string name="browse_code">Посмотреть код</string>
     <string name="get_commits">Коммиты</string>
