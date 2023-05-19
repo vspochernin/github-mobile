@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentAuthBinding
+import com.gitficko.github.utils.Utils
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.toast
 import net.openid.appauth.AuthorizationException
@@ -46,7 +47,10 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
             toast(it)
         }
         viewModel.authSuccessFlow.launchAndCollectIn(viewLifecycleOwner) {
-            findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToNavigationHome())
+            findNavController().navigate(
+                AuthFragmentDirections.actionAuthFragmentToNavigationHome(),
+                Utils.navOptionsToRight
+            )
         }
     }
 

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentProfileBinding
+import com.gitficko.github.utils.Utils
 import com.gitficko.github.utils.profile.RoundedCornersTransformation
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
@@ -47,7 +48,11 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.getUserRep.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_profile_to_navigation_repositories)
+            findNavController().navigate(
+                R.id.action_navigation_profile_to_navigation_repositories,
+                null,
+                Utils.navOptionsToRight
+            )
         }
 
         nameTextView = view.findViewById(R.id.nameTextView)

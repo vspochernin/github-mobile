@@ -16,6 +16,7 @@ import com.gitficko.github.model.Repository
 import com.gitficko.github.model.RepositoryDto
 import com.gitficko.github.remote.ApiClient
 import com.gitficko.github.remote.Networking
+import com.gitficko.github.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -89,6 +90,6 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
                 repository.name,
                 repository.description.orEmpty()
             )
-        findNavController().navigate(action)
+        findNavController().navigate(action, Utils.navOptionsToRight)
     }
 }

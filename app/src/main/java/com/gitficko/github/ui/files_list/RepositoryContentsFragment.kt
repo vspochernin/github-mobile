@@ -16,15 +16,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
-import java.util.*
+import com.gitficko.github.utils.Utils
 
 class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.ContentClickListener {
     private lateinit var ownerLogin: String
     private lateinit var repoName: String
     private val repositoryContentsAdapter = RepositoryContentsAdapter(this)
     private lateinit var toolbar: Toolbar
-    private val pathStack = Stack<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,29 +47,12 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
         toolbar.title = getString(R.string.files_sign)
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
-            if (pathStack.isNotEmpty()) {
-                pathStack.pop()
-                toolbar.title = if (!pathStack.isEmpty()) {
-                    pathStack.peek()
-                } else {
-                    getString(R.string.files_sign)
-                }
-                if (pathStack.isEmpty()) {
-                    loadContents("")
-                } else {
-                    loadContents(pathStack.peek())
-                }
-            } else {
-                findNavController().popBackStack()
-            }
+            findNavController().popBackStack()
         }
         contentsRecyclerView.layoutManager = LinearLayoutManager(context)
         contentsRecyclerView.adapter = repositoryContentsAdapter
-        if (pathStack.isEmpty()) {
-            loadContents("")
-        } else {
-            loadContents(pathStack.peek())
-        }
+
+        loadContents(arguments?.getString("path") ?: "")
     }
 
     private fun loadContents(path: String) {
@@ -80,11 +63,7 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
             )
             withContext(Dispatchers.Main) {
                 repositoryContentsAdapter.submitList(sortedContents)
-                toolbar.title = if (!pathStack.isEmpty()) {
-                    pathStack.peek()
-                } else {
-                    getString(R.string.files_sign)
-                }
+                toolbar.title = if (path.isNotEmpty()) path else getString(R.string.files_sign)
             }
         }
     }
@@ -93,38 +72,41 @@ class RepositoryContentsFragment : Fragment(), RepositoryContentsAdapter.Content
         val navController = findNavController()
         when {
             contentDto.type == "dir" -> {
-                pathStack.push(contentDto.path)
-                loadContents(contentDto.path)
+                val bundle = bundleOf(
+                    "path" to contentDto.path,
+                    "ownerLogin" to ownerLogin,
+                    "repoName" to repoName
+                )
+                navController.navigate(
+                    R.id.repositoryContentsFragment,
+                    bundle,
+                    Utils.navOptionsToRight
+                )
             }
             isTextFile(contentDto) -> {
-                val textFileUrl = contentDto.download_url
-                val textFileName = contentDto.name
-                val action =
-                    RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToTextFileFragment(
-                        textFileUrl!!,
-                        textFileName
-                    )
-                navController.navigate(action)
+                val bundle = bundleOf(
+                    "textFileUrl" to contentDto.download_url,
+                    "textFileName" to contentDto.name
+                )
+                navController.navigate(R.id.nav_textFileFragment, bundle, Utils.navOptionsToRight)
             }
             isImageFile(contentDto) -> {
-                val imageFileUrl = contentDto.download_url
-                val imageFileName = contentDto.name
-                val action =
-                    RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToImageFileFragment(
-                        imageFileUrl!!,
-                        imageFileName
-                    )
-                navController.navigate(action)
+                val bundle = bundleOf(
+                    "imageFileUrl" to contentDto.download_url,
+                    "imageFileName" to contentDto.name
+                )
+                navController.navigate(R.id.nav_imageFileFragment, bundle, Utils.navOptionsToRight)
             }
             else -> {
-                val unsupportedFileUrl = contentDto.download_url
-                val unsupportedFileName = contentDto.name
-                val action =
-                    RepositoryContentsFragmentDirections.actionRepositoryContentsFragmentToUnsupportedFileFragment(
-                        unsupportedFileUrl!!,
-                        unsupportedFileName
-                    )
-                navController.navigate(action)
+                val bundle = bundleOf(
+                    "unsupportedFileUrl" to contentDto.download_url,
+                    "unsupportedFileName" to contentDto.name
+                )
+                navController.navigate(
+                    R.id.nav_unsupportedFileFragment,
+                    bundle,
+                    Utils.navOptionsToRight
+                )
             }
         }
     }

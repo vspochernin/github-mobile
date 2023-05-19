@@ -149,4 +149,20 @@
             android:id="@+id/action_navigation_home_to_navigation_issues"
             app:destination="@id/navigation_issues" />
     </fragment>
+
+    <fragment
+        android:id="@+id/repositoryContentsFragment"
+        android:name="com.gitficko.github.ui.files_list.RepositoryContentsFragment"
+        tools:layout="@layout/fragment_repository_contents">
+        <argument
+            android:name="ownerLogin"
+            app:argType="string" />
+        <argument
+            android:name="repoName"
+            app:argType="string" />
+        <argument
+            android:name="path"
+            app:argType="string" />
+    </fragment>
+
 </navigation>
