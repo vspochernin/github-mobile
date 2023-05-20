@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.Issue
 import com.gitficko.github.remote.ApiClient
-import java.util.stream.Collectors
+import kotlinx.coroutines.launch
 
 class IssuesFragment: Fragment() {
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: IssuesViewModel
+    private var recyclerView: RecyclerView? = null
+    private var viewModel: IssuesViewModel? = null
     private var currentIssuesList = emptyList<Issue>()
 
     override fun onCreateView(
@@ -28,8 +28,8 @@ class IssuesFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_issues, container, false)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.issues)
-        recyclerView.layoutManager = LinearLayoutManager(container!!.context)
-        recyclerView.adapter = IssuesListAdapter(currentIssuesList)
+        recyclerView!!.layoutManager = LinearLayoutManager(container!!.context)
+        recyclerView!!.adapter = IssuesListAdapter(currentIssuesList)
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
@@ -50,11 +50,7 @@ class IssuesFragment: Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                (recyclerView.adapter as IssuesListAdapter).submitList(
-                    currentIssuesList.stream().filter { issue ->
-                        issue.title.startsWith(query?:"")
-                    }.collect(Collectors.toList())
-                )
+                viewModel!!.updateQuery(query?:"")
                 return true
             }
 
@@ -65,27 +61,29 @@ class IssuesFragment: Fragment() {
 
         searchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
-                (recyclerView.adapter as IssuesListAdapter).submitList(currentIssuesList)
+                viewModel!!.updateQuery("")
                 return false
             }
         })
 
         viewModel = ViewModelProvider(this).get(IssuesViewModel::class.java)
 
-        viewModel.list.observe(viewLifecycleOwner) { issues ->
-            currentIssuesList = issues
-            (recyclerView.adapter as IssuesListAdapter).submitList(issues)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel!!.suitableIssues.collect { issues ->
+                    (recyclerView!!.adapter as IssuesListAdapter).submitList(issues)
+                }
+            }
         }
 
-        viewModel.loadIssuesByToken(ApiClient.token!!)
+        viewModel!!.loadIssuesByToken(ApiClient.token!!)
 
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.list.removeObservers(viewLifecycleOwner)
-        recyclerView.adapter = null
-        recyclerView.layoutManager = null
+        recyclerView = null
+        viewModel = null
     }
 }
