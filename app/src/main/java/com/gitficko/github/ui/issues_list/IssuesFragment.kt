@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +17,8 @@ import com.gitficko.github.remote.ApiClient
 import kotlinx.coroutines.launch
 
 class IssuesFragment: Fragment() {
+    private val viewModel: IssuesViewModel by viewModels()
     private var recyclerView: RecyclerView? = null
-    private var viewModel: IssuesViewModel? = null
     private var currentIssuesList = emptyList<Issue>()
 
     override fun onCreateView(
@@ -66,7 +67,6 @@ class IssuesFragment: Fragment() {
             }
         })
 
-        viewModel = ViewModelProvider(this).get(IssuesViewModel::class.java)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -84,6 +84,5 @@ class IssuesFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         recyclerView = null
-        viewModel = null
     }
 }
