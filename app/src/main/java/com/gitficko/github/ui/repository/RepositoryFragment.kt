@@ -14,6 +14,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentRepositoryBinding
 import com.gitficko.github.remote.Networking
+import com.gitficko.github.utils.Utils
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -110,7 +111,7 @@ class RepositoryFragment : Fragment() {
                 ownerLogin,
                 repoName
             )
-        findNavController().navigate(action)
+        findNavController().navigate(action, Utils.navOptionsToRight)
     }
 
     private fun onReadmeClick() {
@@ -124,6 +125,6 @@ class RepositoryFragment : Fragment() {
                 textFileUrl!!,
                 textFileName
             )
-        findNavController().navigate(action)
+        findNavController().navigate(action, Utils.navOptionsToRight)
     }
 }
