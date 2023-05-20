@@ -7,19 +7,17 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.Issue
 import com.gitficko.github.remote.ApiClient
-import com.gitficko.github.remote.CachedClient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
 class IssuesFragment: Fragment() {
     private lateinit var recyclerView: RecyclerView
+    private lateinit var viewModel: IssuesViewModel
     private var currentIssuesList = emptyList<Issue>()
 
     override fun onCreateView(
@@ -68,20 +66,26 @@ class IssuesFragment: Fragment() {
         searchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
                 (recyclerView.adapter as IssuesListAdapter).submitList(currentIssuesList)
-                return true
+                return false
             }
         })
 
-        CoroutineScope(Dispatchers.IO).launch {
-            currentIssuesList = CachedClient.getIssues(
-                ApiClient.token!!
-            )
+        viewModel = ViewModelProvider(this).get(IssuesViewModel::class.java)
 
-            requireActivity().runOnUiThread {
-                (recyclerView.adapter as IssuesListAdapter).submitList(currentIssuesList)
-            }
+        viewModel.list.observe(viewLifecycleOwner) { issues ->
+            currentIssuesList = issues
+            (recyclerView.adapter as IssuesListAdapter).submitList(issues)
         }
 
+        viewModel.loadIssuesByToken(ApiClient.token!!)
+
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.list.removeObservers(viewLifecycleOwner)
+        recyclerView.adapter = null
+        recyclerView.layoutManager = null
     }
 }
