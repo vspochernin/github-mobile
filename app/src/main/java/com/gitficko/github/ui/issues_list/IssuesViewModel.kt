@@ -30,8 +30,4 @@ class IssuesViewModel : ViewModel() {
             }
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-    }
 }
