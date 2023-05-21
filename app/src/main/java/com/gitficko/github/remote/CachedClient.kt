@@ -1,7 +1,6 @@
 package com.gitficko.github.remote
 
 import android.app.Application
-import android.util.Log
 import androidx.room.Room
 import com.gitficko.github.model.*
 import timber.log.Timber
@@ -47,6 +46,22 @@ object CachedClient {
         } catch (e: IOException) {
             Timber.e("issues_list_fetching_error", e.stackTraceToString())
             return database!!.issueDao().getAllByToken(token)
+        }
+    }
+
+    suspend fun getRepositories(token: String): List<Repository> {
+        try {
+            val repositories = Networking.githubApi.getUserRepositories("Bearer $token")
+                .stream()
+                .map { repositoryDto -> repositoryDto.toEntity(token) }
+                .collect(Collectors.toList())
+            Timber.tag("repositories_fetched_successfully").i(repositories.toString())
+            database!!.repositoryDao().clear(token)
+            database!!.repositoryDao().insert(repositories)
+            return repositories
+        } catch (e: IOException) {
+            Timber.tag("repositories_fetching_error").e(e.stackTraceToString())
+            return database!!.repositoryDao().getAllByToken(token)
         }
     }
 }

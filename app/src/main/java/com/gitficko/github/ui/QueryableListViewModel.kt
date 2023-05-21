@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.combine
 import java.util.stream.Collectors
 
 abstract class QueryableListViewModel<T> : ViewModel() {
-    protected val list = MutableStateFlow<List<T>>(emptyList())
+    val list = MutableStateFlow<List<T>>(emptyList())
     protected val query = MutableStateFlow("")
 
     val suitableList = combine(list, query) { list, query ->

@@ -15,7 +15,8 @@ class Repository(
     var updatedAt: String?,
     var language: String?,
     var description: String?,
-    var ownerLogin: String
+    var ownerLogin: String,
+    var token: String
 ) {
     constructor() : this(
         0,
@@ -25,6 +26,7 @@ class Repository(
         "",
         null,
         null,
+        "",
         "",
         ""
     )
