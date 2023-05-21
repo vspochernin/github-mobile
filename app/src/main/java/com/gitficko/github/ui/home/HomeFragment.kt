@@ -1,5 +1,6 @@
 package com.gitficko.github.ui.home
 
+import RepositoriesSourceType
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -97,7 +99,7 @@ class HomeFragment : Fragment() {
         binding.getUserRep.setOnClickListener {
             findNavController().navigate(
                 R.id.action_navigation_home_to_navigation_repositories,
-                null,
+                bundleOf("source" to RepositoriesSourceType.DEFAULT.name),
                 Utils.navOptionsToRight
             )
         }
