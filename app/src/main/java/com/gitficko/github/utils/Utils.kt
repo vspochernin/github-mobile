@@ -1,5 +1,7 @@
 package com.gitficko.github.utils
 
+import androidx.navigation.NavOptions
+import com.gitficko.github.R
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
@@ -32,5 +34,19 @@ class Utils {
                 else -> "Updated just now"
             }
         }
+
+        val navOptionsToLeft = NavOptions.Builder()
+            .setEnterAnim(R.anim.slide_in_left)
+            .setExitAnim(R.anim.slide_out_right)
+            .setPopEnterAnim(R.anim.slide_in_right)
+            .setPopExitAnim(R.anim.slide_out_left)
+            .build()
+
+        val navOptionsToRight = NavOptions.Builder()
+            .setEnterAnim(R.anim.slide_in_right)
+            .setExitAnim(R.anim.slide_out_left)
+            .setPopEnterAnim(R.anim.slide_in_left)
+            .setPopExitAnim(R.anim.slide_out_right)
+            .build()
     }
 }

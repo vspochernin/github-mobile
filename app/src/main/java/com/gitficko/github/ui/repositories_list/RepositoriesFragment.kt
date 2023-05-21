@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.Repository
 import com.gitficko.github.remote.ApiClient
+import com.gitficko.github.utils.Utils
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -35,7 +36,7 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
         // Инициализация Toolbar.
-        toolbar.title = "Repositories"
+        toolbar.title = getString(R.string.repositories_sign)
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.inflateMenu(R.menu.menu_search)
 
@@ -92,7 +93,7 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
                 repository.name,
                 repository.description.orEmpty()
             )
-        findNavController().navigate(action)
+        findNavController().navigate(action, Utils.navOptionsToRight)
     }
 
     override fun onDestroyView() {

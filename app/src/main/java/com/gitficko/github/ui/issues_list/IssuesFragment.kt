@@ -35,7 +35,7 @@ class IssuesFragment: Fragment() {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
         // Инициализация Toolbar.
-        toolbar.title = "Issues"
+        toolbar.title = getString(R.string.get_user_issue)
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.inflateMenu(R.menu.menu_search)
 

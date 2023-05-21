@@ -35,7 +35,7 @@ class PullRequestsFragment: Fragment() {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
         // Инициализация Toolbar.
-        toolbar.title = "Pull Requests"
+        toolbar.title = getString(R.string.title_pull_requests)
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.inflateMenu(R.menu.menu_search)
 

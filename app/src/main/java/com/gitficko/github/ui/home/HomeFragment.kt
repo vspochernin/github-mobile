@@ -20,6 +20,7 @@ import com.gitficko.github.databinding.FragmentHomeBinding
 import com.gitficko.github.model.CurrentUserPreferencesKey
 import com.gitficko.github.model.SharedPreferencesKey
 import com.gitficko.github.remote.Networking
+import com.gitficko.github.utils.Utils
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.resetNavGraph
 import com.gitficko.github.utils.toast
@@ -94,13 +95,25 @@ class HomeFragment : Fragment() {
         activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
 
         binding.getUserRep.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_navigation_repositories)
+            findNavController().navigate(
+                R.id.action_navigation_home_to_navigation_repositories,
+                null,
+                Utils.navOptionsToRight
+            )
         }
         binding.getUserPr.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_navigation_pull_requests)
+            findNavController().navigate(
+                R.id.action_navigation_home_to_navigation_pull_requests,
+                null,
+                Utils.navOptionsToRight
+            )
         }
         binding.getUserIssue.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_navigation_issues)
+            findNavController().navigate(
+                R.id.action_navigation_home_to_navigation_issues,
+                null,
+                Utils.navOptionsToRight
+            )
         }
         binding.logout.setOnClickListener {
             viewModel.logout()

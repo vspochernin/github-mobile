@@ -6,14 +6,13 @@
     <string name="auth_login">sign in with github</string>
     <string name="auth_canceled">authentication failed</string>
     <string name="get_user_rep">Repositories</string>
-    <string name="get_user_pr">Pull Requests</string>
     <string name="get_user_issue">Issues</string>
     <string name="get_user_error">Get user error</string>
     <string name="logout">Log Out</string>
     <string name="title_repositories">Repositories</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="number">#%s</string>
-    <string name="path">%s / %s #%d</string>
+    <string name="path" translatable="false">%s / %s #%d</string>
     <string name="auth_terms">By signing in you accept our Terms of use and Privacy policy.</string>
     <string name="slogan">BUILD SOFTWARE BETTER, TOGETHER</string>
     <string name="my_work">My work</string>
@@ -27,10 +26,13 @@
     <string name="stub_username">GitHub User</string>
     <string name="stub_login">nickname</string>
     <string name="stub_about">About me</string>
-    <string name="stub_location">San Francisco, California, USA</string>
-    <string name="stub_followers">0 followers</string>
+    <string name="stub_location">Undefined</string>
+    <string name="stub_followers">Count of followers: </string>
     <string name="browse_code">Browse code</string>
     <string name="get_commits">Commits</string>
-    <string name="readme_md">README.md</string>
+    <string name="readme_md" translatable="false">README.md</string>
     <string name="download">Download</string>
+    <string name="repositories_sign">Repositories</string>
+    <string name="files_sign">Files</string>
+    <string name="followers_sign">Count of followers: </string>
 </resources>
