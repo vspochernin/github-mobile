@@ -17,7 +17,7 @@ import com.gitficko.github.remote.ApiClient
 import kotlinx.coroutines.launch
 
 class IssuesFragment: Fragment() {
-    private val viewModel: IssuesViewModel by viewModels()
+    private val viewModel: IssuesListViewModel by viewModels()
     private var recyclerView: RecyclerView? = null
     private var currentIssuesList = emptyList<Issue>()
 
@@ -51,7 +51,7 @@ class IssuesFragment: Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel!!.updateQuery(query?:"")
+                viewModel.updateQuery(query?:"")
                 return true
             }
 
@@ -62,7 +62,7 @@ class IssuesFragment: Fragment() {
 
         searchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
-                viewModel!!.updateQuery("")
+                viewModel.updateQuery("")
                 return false
             }
         })
@@ -70,13 +70,13 @@ class IssuesFragment: Fragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel!!.suitableIssues.collect { issues ->
+                viewModel.suitableList.collect { issues ->
                     (recyclerView!!.adapter as IssuesListAdapter).submitList(issues)
                 }
             }
         }
 
-        viewModel!!.loadIssuesByToken(ApiClient.token!!)
+        viewModel.loadIssuesByToken(ApiClient.token!!)
 
         return view
     }

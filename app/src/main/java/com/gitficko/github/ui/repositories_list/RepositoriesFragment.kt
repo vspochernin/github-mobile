@@ -8,23 +8,23 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.Repository
-import com.gitficko.github.model.RepositoryDto
 import com.gitficko.github.remote.ApiClient
-import com.gitficko.github.remote.Networking
 import com.gitficko.github.utils.Utils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.stream.Collectors
 
 class RepositoriesFragment : Fragment(), RepositoryClickListener {
-    private lateinit var recyclerView: RecyclerView
+    private val viewModel: RepositoriesListViewModel by viewModels()
+    private var recyclerView: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,34 +52,37 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // TODO: Реализовать функцию поиска при нажатии на кнопку "Enter" на клавиатуре.
-                Timber.tag("Ищем ").e(query)
+                Timber.tag("repositories_query_text").i(query)
+                viewModel.updateQuery(query?:"")
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // TODO: Реализовать функцию поиска при изменении текста в поле поиска.
-                Timber.tag("Текст поска изменился на ").e(newText)
-                return false
+                Timber.tag("repositories_text_change").i(newText)
+                return true
             }
         })
 
-        recyclerView = view.findViewById(R.id.repositories)
-        recyclerView.layoutManager = LinearLayoutManager(container!!.context)
-        recyclerView.adapter = RepositoriesListAdapter(emptyList(), this)
+        searchView.setOnCloseListener {
+            Timber.tag("repositories_close")
+            viewModel.updateQuery("")
+            true
+        }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val repositories = Networking.githubApi
-                .getUserRepositories("Bearer ${ApiClient.token}")
-                .stream()
-                .map(RepositoryDto::toEntity)
-                .collect(Collectors.toList())
-            requireActivity().runOnUiThread {
-                recyclerView.adapter =
-                    RepositoriesListAdapter(repositories, this@RepositoriesFragment)
-                recyclerView.adapter!!.notifyDataSetChanged()
+        recyclerView = view.findViewById(R.id.repositories)
+        recyclerView!!.layoutManager = LinearLayoutManager(container!!.context)
+        recyclerView!!.adapter = RepositoriesListAdapter(emptyList(), this)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.list.collect { repositories ->
+                    (recyclerView!!.adapter as RepositoriesListAdapter).submitList(repositories)
+                }
             }
         }
+
+        viewModel.loadRepositoriesByToken(ApiClient.token!!)
+
         return view
     }
 
@@ -91,5 +94,10 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
                 repository.description.orEmpty()
             )
         findNavController().navigate(action, Utils.navOptionsToRight)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recyclerView = null
     }
 }

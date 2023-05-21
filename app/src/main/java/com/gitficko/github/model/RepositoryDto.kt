@@ -36,7 +36,7 @@ class RepositoryDto(
     @SerialName(value = "default_branch")
     var defaultBranch: String
 ) {
-    fun toEntity(): Repository {
+    fun toEntity(token: String): Repository {
         return Repository(
             id,
             name,
@@ -46,7 +46,8 @@ class RepositoryDto(
             updatedAt,
             language,
             description,
-            owner.login
+            owner.login,
+            ""
         )
     }
 

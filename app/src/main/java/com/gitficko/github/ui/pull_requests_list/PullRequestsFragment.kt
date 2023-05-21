@@ -9,19 +9,21 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.CurrentUserPreferencesKey
 import com.gitficko.github.model.SharedPreferencesKey
-import com.gitficko.github.remote.CachedClient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class PullRequestsFragment: Fragment() {
-    private lateinit var recyclerView: RecyclerView
+    private val viewModel: PullRequestsListViewModel by viewModels()
+    private var recyclerView: RecyclerView? = null
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -49,37 +51,44 @@ class PullRequestsFragment: Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // TODO: Реализовать функцию поиска при нажатии на кнопку "Enter" на клавиатуре.
-                Timber.tag("Ищем ").e(query)
-                return false
+                Timber.tag("pull_requests_query_text").i(query)
+                viewModel.updateQuery(query?:"")
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 // TODO: Реализовать функцию поиска при изменении текста в поле поиска.
-                Timber.tag("Текст поска изменился на ").e(newText)
+                Timber.tag("pull_requests_query_text_change").i(newText)
                 return false
             }
         })
 
-        recyclerView = view.findViewById(R.id.pullRequests)
-        recyclerView.layoutManager = LinearLayoutManager(container!!.context)
-        recyclerView.adapter = PullRequestsListAdapter(emptyList())
+        searchView.setOnCloseListener {
+            Timber.tag("pull_requests_query").i("close")
+            viewModel.updateQuery("")
+            false
+        }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val pullRequests = CachedClient.getPullRequestsOf(
-                context!!.getSharedPreferences(SharedPreferencesKey.CURRENT_USER.value, Context.MODE_PRIVATE)
-                         .getString(CurrentUserPreferencesKey.LOGIN.value, null)!!
-            )
-            requireActivity().runOnUiThread {
-                recyclerView.adapter = PullRequestsListAdapter(pullRequests)
-                recyclerView.adapter!!.notifyDataSetChanged()
+        recyclerView = view.findViewById(R.id.pullRequests)
+        recyclerView!!.layoutManager = LinearLayoutManager(container!!.context)
+        recyclerView!!.adapter = PullRequestsListAdapter(emptyList())
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.suitableList.collect { pullRequests ->
+                    (recyclerView!!.adapter as PullRequestsListAdapter).submitList(pullRequests)
+                }
             }
         }
+
+        viewModel.loadPullRequestsByOwnerLogin(context!!.getSharedPreferences(SharedPreferencesKey.CURRENT_USER.value, Context.MODE_PRIVATE)
+            .getString(CurrentUserPreferencesKey.LOGIN.value, null)!!)
 
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        recyclerView = null
     }
 }

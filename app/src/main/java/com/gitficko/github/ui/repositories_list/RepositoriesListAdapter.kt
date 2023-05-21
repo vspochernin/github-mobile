@@ -3,15 +3,18 @@ package com.gitficko.github.ui.repositories_list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
+import com.gitficko.github.model.ListComparatorAdapter
 import com.gitficko.github.model.Repository
 import com.gitficko.github.utils.Utils
 
 class RepositoriesListAdapter(
-    private val repositoriesList: List<Repository>,
+    private var repositoriesList: List<Repository>,
     private val clickListener: RepositoryClickListener
-) : RecyclerView.Adapter<RepositoryViewHolder>() {
+) : RecyclerView.Adapter<RepositoryViewHolder>(),
+    ListComparatorAdapter<Repository> {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_repository, parent, false)
@@ -48,5 +51,27 @@ class RepositoriesListAdapter(
         holder.itemView.setOnClickListener {
             clickListener.onRepositoryClick(repository)
         }
+    }
+
+    override fun submitList(newRepositoriesList: List<Repository>) {
+        val diffResult = DiffUtil.calculateDiff(object: DiffUtil.Callback() {
+            override fun getOldListSize(): Int {
+                return repositoriesList.size
+            }
+
+            override fun getNewListSize(): Int {
+                return newRepositoriesList.size
+            }
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return repositoriesList[oldItemPosition].id == newRepositoriesList[newItemPosition].id
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return repositoriesList[oldItemPosition] == newRepositoriesList[newItemPosition]
+            }
+        })
+        repositoriesList = newRepositoriesList
+        diffResult.dispatchUpdatesTo(this)
     }
 }

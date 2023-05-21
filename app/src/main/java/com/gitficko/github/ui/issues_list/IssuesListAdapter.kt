@@ -65,7 +65,7 @@ class IssuesListAdapter(var issuesList: List<Issue>): RecyclerView.Adapter<Issue
             }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return issuesList[oldItemPosition].equals(newIssuesList[newItemPosition])
+                return issuesList[oldItemPosition] == newIssuesList[newItemPosition]
             }
         })
         issuesList = newIssuesList
