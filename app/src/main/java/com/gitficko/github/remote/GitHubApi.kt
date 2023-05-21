@@ -2,7 +2,6 @@ package com.gitficko.github.remote
 
 import com.gitficko.github.model.*
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -18,14 +17,10 @@ interface GitHubApi {
         @Query("q") qString: String
     ): PullRequestsInfo
 
-    @GET("/search/repositories")
-    suspend fun searchRepositories(
-        @Query("q") query: String,
-        @Query("sort") sort: String = "stars",
-        @Query("order") order: String = "desc",
-        @Query("per_page") perPage: Int = 10,
-        @Query("page") page: Int = 1
-    ): Response<SearchResponse>
+    @GET("/issues")
+    suspend fun getIssues(
+        @Header("Authorization") authorizationHeader: String
+    ): List<IssueDto>
 
     @GET("user/orgs")
     suspend fun getOrganizations(): List<Organization>
