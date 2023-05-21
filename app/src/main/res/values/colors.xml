@@ -3,11 +3,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#000000</color>
     <color name="colorPrimary">#FFFFFFFF</color>
+    <color name="darkPrimaryColor">#1B1B1B</color>
     <color name="colorButtons">#6750A4</color>
     <color name="colorSlogan">#73000000</color>
     <color name="colorSecondary">#EDE5F9</color>
     <color name="colorStripe">#D9D9D9</color>
     <color name="colorName">#090909</color>
     <color name="colorLogin">#4F4F59</color>
-
 </resources>
