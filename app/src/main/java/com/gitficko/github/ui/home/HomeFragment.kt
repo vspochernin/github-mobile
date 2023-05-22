@@ -4,9 +4,7 @@ import RepositoriesSourceType
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -15,13 +13,20 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentHomeBinding
 import com.gitficko.github.model.CurrentUserPreferencesKey
 import com.gitficko.github.model.SharedPreferencesKey
 import com.gitficko.github.remote.Networking
+import com.gitficko.github.ui.repositories_list.RepositoriesListAdapter
+import com.gitficko.github.ui.search.SearchViewModel
 import com.gitficko.github.utils.Utils
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.resetNavGraph
@@ -36,6 +41,8 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModels()
     private val binding by viewBinding(FragmentHomeBinding::bind)
+
+    private var searchView: SearchView? = null
 
     private val logoutResponse = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -60,19 +67,29 @@ class HomeFragment : Fragment() {
 
         val searchItem = toolbar.menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
-        searchView.queryHint = "Search..."
+        searchView.queryHint = "Search global repositories"
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Timber.tag("Ищем ").e(query)
+                Timber.tag("Ищем ").i(query)
+                viewModel.searchRepositories(query ?: "")
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Timber.tag("Текст поска изменился на ").e(newText)
+                Timber.tag("Текст поска изменился на ").i(newText)
+                viewModel.searchRepositories(newText ?: "")
                 return false
             }
         })
+
+        searchView.setOnCloseListener {
+            Timber.tag("repositories_close").i("close")
+            viewModel.searchRepositories("")
+            false
+        }
+
+        this.searchView = searchView
 
         return view
     }
@@ -142,5 +159,34 @@ class HomeFragment : Fragment() {
         viewModel.logoutCompletedFlow.launchAndCollectIn(viewLifecycleOwner) {
             findNavController().resetNavGraph(R.navigation.nav_graph)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.queryHint = "Search global repositories"
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Timber.tag("Ищем ").i(query)
+                viewModel.searchRepositories(query ?: "")
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Timber.tag("Текст поиска изменился на ").i(newText)
+                viewModel.searchRepositories(newText ?: "")
+                return false
+            }
+        })
+
+        searchView.setOnCloseListener {
+            Timber.tag("repositories_close").i("close")
+            viewModel.searchRepositories("")
+            false
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }
