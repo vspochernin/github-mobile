@@ -13,20 +13,13 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.gitficko.github.R
 import com.gitficko.github.databinding.FragmentHomeBinding
 import com.gitficko.github.model.CurrentUserPreferencesKey
 import com.gitficko.github.model.SharedPreferencesKey
 import com.gitficko.github.remote.Networking
-import com.gitficko.github.ui.repositories_list.RepositoriesListAdapter
-import com.gitficko.github.ui.search.SearchViewModel
 import com.gitficko.github.utils.Utils
 import com.gitficko.github.utils.launchAndCollectIn
 import com.gitficko.github.utils.resetNavGraph
@@ -53,6 +46,7 @@ class HomeFragment : Fragment() {
             viewModel.webLogoutComplete()
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

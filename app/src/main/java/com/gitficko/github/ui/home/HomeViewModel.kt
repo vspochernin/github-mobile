@@ -75,12 +75,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun searchRepositories(query: String) {
         currentQuery = query
         viewModelScope.launch {
-//            val response = gitHubApi.searchRepositories(query)
-//            if (response.isSuccessful) {
-//                _repositories.postValue((response.body()?.items ?: emptyList()) as List<Repository>?)
-//            } else {
-//                Timber.e(response.errorBody()?.string() ?: "Unknown error")
-//            }
             try {
                 val result = withContext(Dispatchers.IO) {
                     CachedClient.searchRepositories(query)

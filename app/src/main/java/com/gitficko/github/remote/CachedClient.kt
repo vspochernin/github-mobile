@@ -96,4 +96,28 @@ object CachedClient {
             return database!!.repositoryDao().getAllByToken(token)
         }
     }
+
+    suspend fun searchRepositories(token: String): List<Repository> {
+        try {
+            val response = Networking.githubApi.searchRepositories("Bearer $token")
+            if (response.isSuccessful) {
+                val repositoriesDto = response.body()?.items
+                val repositories = repositoriesDto?.map { repositoryDto ->
+                    repositoryDto.toEntity(token)
+                } ?: emptyList()
+                Timber.tag("repositories_fetched_successfully").i(repositories.toString())
+                database!!.repositoryDao().clear(token)
+                database!!.repositoryDao().insert(repositories)
+                return repositories
+            } else {
+                Timber.e("Error: ${response.code()} ${response.message()}")
+                return emptyList()
+            }
+        } catch (e: IOException) {
+            Timber.tag("repositories_fetching_error").e(e.stackTraceToString())
+            return database!!.repositoryDao().getAllByToken(token)
+        }
+    }
+
+
 }
