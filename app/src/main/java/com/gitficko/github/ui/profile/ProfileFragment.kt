@@ -65,6 +65,10 @@ class ProfileFragment : Fragment() {
             )
         }
 
+        binding.getUserOrg.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_organizations)
+        }
+
         nameTextView = view.findViewById(R.id.nameTextView)
         loginTextView = view.findViewById(R.id.loginTextView)
         locationTextView = view.findViewById(R.id.locationTextView)

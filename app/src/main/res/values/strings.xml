@@ -10,6 +10,7 @@
     <string name="get_user_error">Get user error</string>
     <string name="logout">Log Out</string>
     <string name="title_repositories">Repositories</string>
+    <string name="title_organizations">Organizations</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="number">#%s</string>
     <string name="path" translatable="false">%s / %s #%d</string>
