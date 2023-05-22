@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_navigation_repositories_to_repositoryFragment"
             app:destination="@id/nav_repositoryFragment" />
+        <argument
+            android:name="source"
+            app:argType="string" />
     </fragment>
 
     <fragment
