@@ -1,5 +1,6 @@
 package com.gitficko.github.ui.repositories_list
 
+import RepositoriesSourceType
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,13 @@ import timber.log.Timber
 class RepositoriesFragment : Fragment(), RepositoryClickListener {
     private val viewModel: RepositoriesListViewModel by viewModels()
     private var recyclerView: RecyclerView? = null
+    private lateinit var source: RepositoriesSourceType
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        source = arguments?.getString("source")?.let { RepositoriesSourceType.valueOf(it) }
+            ?: RepositoriesSourceType.DEFAULT
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +89,7 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
             }
         }
 
-        viewModel.loadRepositoriesByToken(ApiClient.token!!)
+        viewModel.loadRepositoriesByToken(ApiClient.token!!, source)
 
         return view
     }

@@ -1,5 +1,6 @@
 package com.gitficko.github.ui.repositories_list
 
+import RepositoriesSourceType
 import androidx.lifecycle.viewModelScope
 import com.gitficko.github.model.Repository
 import com.gitficko.github.remote.CachedClient
@@ -11,11 +12,14 @@ import timber.log.Timber
 
 class RepositoriesListViewModel : QueryableListViewModel<Repository>() {
 
-    fun loadRepositoriesByToken(token: String) {
+    fun loadRepositoriesByToken(token: String, source: RepositoriesSourceType) {
         viewModelScope.launch {
             try {
                 val result = withContext(Dispatchers.IO) {
-                    CachedClient.getRepositories(token)
+                    when(source) {
+                        RepositoriesSourceType.DEFAULT -> CachedClient.getRepositories(token)
+                        RepositoriesSourceType.STARRED -> CachedClient.getStarred(token)
+                    }
                 }
                 Timber.tag("repo_found").i(result.toString())
 

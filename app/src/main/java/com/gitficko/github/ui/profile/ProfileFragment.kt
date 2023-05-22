@@ -1,5 +1,6 @@
 package com.gitficko.github.ui.profile
 
+import RepositoriesSourceType
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -50,7 +52,15 @@ class ProfileFragment : Fragment() {
         binding.getUserRep.setOnClickListener {
             findNavController().navigate(
                 R.id.action_navigation_profile_to_navigation_repositories,
-                null,
+                bundleOf("source" to RepositoriesSourceType.DEFAULT.name),
+                Utils.navOptionsToRight
+            )
+        }
+
+        binding.getUserStarred.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_navigation_profile_to_navigation_repositories,
+                bundleOf("source" to RepositoriesSourceType.STARRED.name),
                 Utils.navOptionsToRight
             )
         }

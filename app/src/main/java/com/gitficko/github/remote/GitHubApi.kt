@@ -40,6 +40,11 @@ interface GitHubApi {
         @Header("Authorization") token: String
     ): List<RepositoryDto>
 
+    @GET("user/starred")
+    suspend fun getUserStarred(
+        @Header("Authorization") token: String
+    ): List<RepositoryDto>
+
     @GET("repos/{owner}/{repo}/git/trees/{branch}?recursive=1")
     fun getRepositoryRootNode(
         @Path("owner") owner: String,
