@@ -23,7 +23,9 @@ interface GitHubApi {
     ): List<IssueDto>
 
     @GET("user/orgs")
-    suspend fun getOrganizations(): List<Organization>
+    suspend fun getOrganizations(
+        @Header("Authorization") authorizationHeader: String
+    ): List<OrganizationDto>
 
     @GET("user/starred")
     suspend fun getStarred(): List<Starred>

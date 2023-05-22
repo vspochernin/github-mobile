@@ -10,6 +10,7 @@
     <string name="get_user_error">Ошибка получения пользователя</string>
     <string name="logout">Выйти</string>
     <string name="title_repositories">Репозитории</string>
+    <string name="title_organizations">Организации</string>
     <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
     <string name="number">#%s</string>
     <string name="auth_terms">Подписываясь, вы принимаете наши Условия использования и Политику конфиденциальности.</string>

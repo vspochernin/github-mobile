@@ -64,4 +64,20 @@ object CachedClient {
             return database!!.repositoryDao().getAllByToken(token)
         }
     }
+
+    suspend fun getOrganizations(token: String): List<Organization> {
+        try {
+            val organizations = Networking.githubApi.getOrganizations("Bearer $token")
+                .stream()
+                .map { organizationDto -> organizationDto.toEntity(token) }
+                .collect(Collectors.toList())
+            Timber.tag("organizations_fetched_successfully").i(organizations.toString())
+            database!!.organizationDao().clear(token)
+            database!!.organizationDao().insert(organizations)
+            return organizations
+        } catch (e: IOException) {
+            Timber.tag("organizations_fetching_error").e(e.stackTraceToString())
+            return database!!.organizationDao().getAllByToken(token)
+        }
+    }
 }

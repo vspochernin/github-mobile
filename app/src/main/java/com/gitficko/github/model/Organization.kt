@@ -1,6 +1,16 @@
 package com.gitficko.github.model
 
-import kotlinx.serialization.Serializable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.serialization.SerialName
 
-@Serializable
-class Organization(val id: Int)
+@Entity(tableName = "organization")
+data class Organization(
+    @PrimaryKey
+    var id: Int,
+    var login: String,
+    @SerialName(value = "avatar_url")
+    var avatarUrl: String?,
+    var description: String?,
+    var token: String
+)
