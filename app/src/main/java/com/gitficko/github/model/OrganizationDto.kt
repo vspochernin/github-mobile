@@ -9,7 +9,7 @@ class OrganizationDto(
     val login: String,
     @SerialName(value = "avatar_url")
     val avatarUrl: String?,
-    val description: String
+    val description: String?
 ) {
     fun toEntity(ownerLogin: String): Organization {
         return Organization(
