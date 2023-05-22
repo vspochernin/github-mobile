@@ -1,20 +1,20 @@
-package com.gitficko.github.ui.pull_requests_list
+package com.gitficko.github.ui.organizations_list
 
 import androidx.lifecycle.viewModelScope
-import com.gitficko.github.model.PullRequest
+import com.gitficko.github.model.Organization
 import com.gitficko.github.remote.CachedClient
 import com.gitficko.github.ui.QueryableListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PullRequestsListViewModel : QueryableListViewModel<PullRequest>() {
+class OrganizationsListViewModel : QueryableListViewModel<Organization>() {
 
-    fun loadPullRequestsByOwnerLogin(ownerLogin: String) {
+    fun loadOrganizationsByToken(ownerLogin: String) {
         viewModelScope.launch {
             try {
                 val result = withContext(Dispatchers.IO) {
-                    CachedClient.getPullRequestsOf(ownerLogin)
+                    CachedClient.getOrganizationsOf(ownerLogin)
                 }
 
                 withContext(Dispatchers.Main) {
@@ -28,9 +28,9 @@ class PullRequestsListViewModel : QueryableListViewModel<PullRequest>() {
         }
     }
 
-    override fun validateItem(item: PullRequest, query: String): Boolean {
+    override fun validateItem(item: Organization, query: String): Boolean {
         val queryLowered = query.lowercase()
-        return item.title.lowercase().contains(queryLowered) ||
-               item.number.toString().contains(queryLowered)
+        return item.login.lowercase().contains(queryLowered) ||
+               item.description.lowercase().contains(queryLowered)
     }
 }

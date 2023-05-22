@@ -3,6 +3,7 @@ package com.gitficko.github.ui
 import androidx.lifecycle.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import timber.log.Timber
 import java.util.stream.Collectors
 
 abstract class QueryableListViewModel<T> : ViewModel() {
