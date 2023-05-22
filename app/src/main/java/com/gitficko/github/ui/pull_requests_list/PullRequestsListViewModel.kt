@@ -29,6 +29,8 @@ class PullRequestsListViewModel : QueryableListViewModel<PullRequest>() {
     }
 
     override fun validateItem(item: PullRequest, query: String): Boolean {
-        return item.title.startsWith(query)
+        val queryLowered = query.lowercase()
+        return item.title.lowercase().contains(queryLowered) ||
+               item.number.toString().contains(queryLowered)
     }
 }

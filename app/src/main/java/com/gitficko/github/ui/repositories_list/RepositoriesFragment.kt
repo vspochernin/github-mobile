@@ -54,7 +54,7 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Timber.tag("repositories_query_text").i(query)
                 viewModel.updateQuery(query?:"")
-                return false
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -75,7 +75,7 @@ class RepositoriesFragment : Fragment(), RepositoryClickListener {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.list.collect { repositories ->
+                viewModel.suitableList.collect { repositories ->
                     (recyclerView!!.adapter as RepositoriesListAdapter).submitList(repositories)
                 }
             }

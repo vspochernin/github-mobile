@@ -31,6 +31,8 @@ class RepositoriesListViewModel : QueryableListViewModel<Repository>() {
     }
 
     override fun validateItem(item: Repository, query: String): Boolean {
-        return item.fullName.startsWith(query)
+        val queryLowered = query.lowercase()
+        return item.language?.lowercase()?.contains(queryLowered)?:false ||
+               item.fullName.lowercase().contains(queryLowered)
     }
 }

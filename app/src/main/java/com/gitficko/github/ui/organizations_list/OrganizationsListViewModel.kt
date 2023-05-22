@@ -29,6 +29,8 @@ class OrganizationsListViewModel : QueryableListViewModel<Organization>() {
     }
 
     override fun validateItem(item: Organization, query: String): Boolean {
-        return item.login.startsWith(query)
+        val queryLowered = query.lowercase()
+        return item.login.lowercase().contains(queryLowered) ||
+               item.description.lowercase().contains(queryLowered)
     }
 }
