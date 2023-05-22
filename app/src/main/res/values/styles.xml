@@ -5,6 +5,7 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/darkPrimaryColor</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="repo_name_font">
