@@ -11,6 +11,6 @@ data class Organization(
     var login: String,
     @SerialName(value = "avatar_url")
     var avatarUrl: String?,
-    var description: String,
+    var description: String?,
     var ownerLogin: String
 )

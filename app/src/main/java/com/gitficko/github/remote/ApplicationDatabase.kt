@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.gitficko.github.dao.*
 import com.gitficko.github.model.*
 
-@Database(entities = [Owner::class, Repository::class, PullRequest::class, Issue::class, Organization::class], version = 23)
+@Database(entities = [Owner::class, Repository::class, PullRequest::class, Issue::class, Organization::class], version = 24)
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun ownerDao(): OwnerDao
     abstract fun repositoryDao(): RepositoryDao

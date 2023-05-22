@@ -2,7 +2,11 @@ package com.gitficko.github.remote
 
 import android.app.Application
 import androidx.room.Room
-import com.gitficko.github.model.*
+import com.gitficko.github.model.Issue
+import com.gitficko.github.model.Organization
+import com.gitficko.github.model.PullRequest
+import com.gitficko.github.model.PullRequestDto
+import com.gitficko.github.model.Repository
 import timber.log.Timber
 import java.io.IOException
 import java.util.stream.Collectors

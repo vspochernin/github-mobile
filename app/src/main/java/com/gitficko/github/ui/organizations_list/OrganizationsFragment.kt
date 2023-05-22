@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.CurrentUserPreferencesKey
 import com.gitficko.github.model.SharedPreferencesKey
-import com.gitficko.github.remote.ApiClient
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
