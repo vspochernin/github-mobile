@@ -64,4 +64,20 @@ object CachedClient {
             return database!!.repositoryDao().getAllByToken(token)
         }
     }
+
+    suspend fun getStarred(token: String): List<Repository> {
+        try {
+            val repositories = Networking.githubApi.getUserStarred("Bearer $token")
+                .stream()
+                .map { repositoryDto -> repositoryDto.toEntity(token) }
+                .collect(Collectors.toList())
+            Timber.tag("starred_repositories_fetched_successfully").i(repositories.toString())
+            database!!.repositoryDao().clear(token)
+            database!!.repositoryDao().insert(repositories)
+            return repositories
+        } catch (e: IOException) {
+            Timber.tag("starred_repositories_fetching_error").e(e.stackTraceToString())
+            return database!!.repositoryDao().getAllByToken(token)
+        }
+    }
 }
