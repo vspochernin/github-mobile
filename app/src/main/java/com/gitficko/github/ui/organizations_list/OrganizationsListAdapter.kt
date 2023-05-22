@@ -12,7 +12,7 @@ class OrganizationsListAdapter(var organizationsList: List<Organization>): Recyc
                                                                            ListComparatorAdapter<Organization> {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrganizationsViewHolder {
         val view = LayoutInflater.from(parent.context)
-                                 .inflate(R.layout.layout_pull_request, parent, false)
+                                 .inflate(R.layout.layout_organization, parent, false)
         return OrganizationsViewHolder(view)
     }
 

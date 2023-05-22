@@ -1,5 +1,6 @@
 package com.gitficko.github.ui.organizations_list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
+import com.gitficko.github.model.CurrentUserPreferencesKey
+import com.gitficko.github.model.SharedPreferencesKey
 import com.gitficko.github.remote.ApiClient
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -27,7 +30,7 @@ class OrganizationsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_pull_requests, container, false)
+        val view = inflater.inflate(R.layout.fragment_organizations, container, false)
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
 
         // Инициализация Toolbar.
@@ -65,19 +68,21 @@ class OrganizationsFragment: Fragment() {
             false
         }
 
-        recyclerView = view.findViewById(R.id.pullRequests)
+        recyclerView = view.findViewById(R.id.organizations)
         recyclerView!!.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView!!.adapter = OrganizationsListAdapter(emptyList())
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.suitableList.collect { organizations ->
+                    Timber.tag("fickos_123").i(organizations.toString())
                     (recyclerView!!.adapter as OrganizationsListAdapter).submitList(organizations)
                 }
             }
         }
 
-        viewModel.loadOrganizationsByToken(ApiClient.token!!)
+        viewModel.loadOrganizationsByToken(context!!.getSharedPreferences(SharedPreferencesKey.CURRENT_USER.value, Context.MODE_PRIVATE)
+                                            .getString(CurrentUserPreferencesKey.LOGIN.value, null)!!)
 
         return view
     }

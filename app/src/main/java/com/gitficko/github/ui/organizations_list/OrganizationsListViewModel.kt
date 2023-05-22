@@ -10,11 +10,11 @@ import kotlinx.coroutines.withContext
 
 class OrganizationsListViewModel : QueryableListViewModel<Organization>() {
 
-    fun loadOrganizationsByToken(token: String) {
+    fun loadOrganizationsByToken(ownerLogin: String) {
         viewModelScope.launch {
             try {
                 val result = withContext(Dispatchers.IO) {
-                    CachedClient.getOrganizations(token)
+                    CachedClient.getOrganizationsOf(ownerLogin)
                 }
 
                 withContext(Dispatchers.Main) {
