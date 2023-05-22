@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gitficko.github.R
 import com.gitficko.github.model.ListComparatorAdapter
 import com.gitficko.github.model.Organization
+import com.squareup.picasso.Picasso
 
 class OrganizationsListAdapter(var organizationsList: List<Organization>): RecyclerView.Adapter<OrganizationsViewHolder>(),
                                                                            ListComparatorAdapter<Organization> {
@@ -25,6 +26,7 @@ class OrganizationsListAdapter(var organizationsList: List<Organization>): Recyc
 
         holder.loginTextView.text = organization.login
         holder.descriptionTextView.text = organization.description
+        Picasso.get().load(organization.avatarUrl).into(holder.avatarImageView)
     }
 
     override fun submitList(newOrganizationsList: List<Organization>) {
